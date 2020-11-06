@@ -1,0 +1,22 @@
+{
+  "hashtags": [
+    {
+      "label": "Laravel",
+      "value": "laravel",
+      "icon": "/img/laravel-2.png"
+    },
+    {
+      "label": "PHP",
+      "value": "php",
+      "icon": "/img/php.png"
+    },
+    {
+      "label": "コードレビュー",
+      "value": "code-review"
+    },
+    {
+      "label": "転職",
+      "value": "career-change"
+    }
+  ]
+}

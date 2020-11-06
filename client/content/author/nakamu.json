@@ -1,0 +1,14 @@
+{
+  "username": "nakamu",
+  "title": "なかむ",
+  "profilePicture": "/img/fc674b1.jpg",
+  "body": "香港在住4年目になるWEBエンジニアのなかむです。\\\n現在は、LaravelやRailsを利用したWEB開発を中心にエンジニアをしています。\n\n顧客は全て日本の企業になります。\\\nリモート開発にて各企業様の支援を行なっております。",
+  "categoryIds": [
+    "systemEnginner",
+    "Programmer"
+  ],
+  "website": "https://nakamu.life",
+  "twitter": "____nakamu____",
+  "github": "ynaka6",
+  "email": "yuuki.nakamura.0828@gmail.com"
+}

@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "dom"
+    ],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./client/*"
+      ],
+      "@/*": [
+        "./client/*"
+      ]
+    },
+    "types": [
+      "@types/node",
+      "@types/webpack",
+      "@types/webpack-env",
+      "@nuxt/types",
+      "@nuxtjs/axios",
+      "@nuxtjs/dayjs"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    ".nuxt",
+    "dist"
+  ]
+}

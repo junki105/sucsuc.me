@@ -1,0 +1,2 @@
+/admin/*			200!	Role=admin,Admin,Mentor
+/admin/*	/login	401!
