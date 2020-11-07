@@ -32,7 +32,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         netlifyID: user.sub,
       },
     })
-    stripeID = result.data.getUserByNetlifyID.stripeID
+    stripeID = result.data ? result.data.getUserByNetlifyID.stripeID : null
   }
 
   if (!stripeID) {

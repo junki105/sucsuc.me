@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
-import { ChargeList, Charge } from '../../core/entities/Charge'
+import { Charge } from '../../core/entities/Charge'
 import faunaFetch from '../utils/fauna'
 
 import Stripe from 'stripe'
@@ -33,7 +33,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         netlifyID: user.sub,
       },
     })
-    customer = result.data.getUserByNetlifyID.stripeID
+    customer = result.data ? result.data.getUserByNetlifyID.stripeID : null
   }
 
   if (!customer) {
