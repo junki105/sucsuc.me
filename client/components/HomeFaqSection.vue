@@ -61,10 +61,10 @@
               />
             </div>
           </accordion-card>
-          <accordion-card title="金額は税込み？手数料込み？" class="mb-2">
+          <accordion-card title="金額は税込？手数料込？" class="mb-2">
             <p>
               表示されている金額のみをお支払いいただくことになります。<br />
-              税込み、手数料込みの金額を表示しております。
+              税込、手数料込の金額を表示しております。
             </p>
           </accordion-card>
         </div>

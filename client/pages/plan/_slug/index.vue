@@ -40,7 +40,7 @@
                 <span class="mr-1">¥</span>
                 <span v-text="plan.price.toLocaleString()" />
                 <span v-show="isMonthly" class="text-sm">/ 月</span>
-                <span class="text-gray-800 text-sm">（税込み）</span>
+                <span class="text-gray-800 text-sm">（税込）</span>
               </p>
             </div>
             <div class="border-b my-4" />
@@ -108,7 +108,7 @@
           <span class="mr-1">¥</span>
           <span v-text="plan.price.toLocaleString()" />
           <span v-show="isMonthly" class="text-sm">/ 月</span>
-          <span class="text-gray-800 text-sm">（税込み）</span>
+          <span class="text-gray-800 text-sm">（税込）</span>
         </p>
         <button
           class="bg-orange-500 rounded font-bold text-white px-4 py-2 hover:opacity-75"
@@ -193,7 +193,7 @@
               <span class="mr-1">¥</span>
               <span v-text="plan.price.toLocaleString()" />
               <span v-show="isMonthly" class="text-sm">/ 月</span>
-              <span class="text-gray-800 text-sm">（税込み）</span>
+              <span class="text-gray-800 text-sm">（税込）</span>
             </p>
           </div>
           <div class="w-full mt-6 text-center lg:w-1/2 lg:mx-auto">
