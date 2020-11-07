@@ -2,13 +2,11 @@
   <div class="py-10">
     <div class="max-w-6xl mx-auto px-2">
       <h2 class="font-semibold text-center text-xl text-gray-800 lg:text-3xl">
-        <font-awesome-icon :icon="['fas', 'seeding']" class="mr-1" />
+        <font-awesome-icon :icon="['fas', 'lightbulb']" class="mr-1" />
         ピックアップ
       </h2>
       <p class="text-center text-xs text-gray-700 lg:text-sm">
-        質問は<nuxt-link to="/contact" class="text-blue-500"
-          >問い合わせ</nuxt-link
-        >からご連絡ください
+        お気に入りのプランを見つけよう！
       </p>
       <div class="flex flex-wrap mt-10">
         <div
@@ -36,6 +34,15 @@
             </template>
           </plan-card>
         </div>
+      </div>
+      <div class="w-full max-w-lg mx-auto flex justify-center my-6">
+        <nuxt-link
+          to="/search"
+          class="px-8 py-3 bg-indigo-400 text-white text-2xl shadow-xl rounded-full hover:opacity-75"
+        >
+          <font-awesome-icon :icon="['fas', 'search']" class="mr-1" />
+          プランを探す
+        </nuxt-link>
       </div>
     </div>
   </div>
