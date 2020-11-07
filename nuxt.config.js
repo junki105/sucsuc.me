@@ -68,7 +68,6 @@ export default {
   env: {
     baseUrl: process.env.BASE_URL || `/`,
     disqusShortname: process.env.DISQUS_SHORTNAME || ``,
-    stripeClientId: process.env.STRIPE_CLIENT_ID || ``,
     stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || ``,
   },
 
