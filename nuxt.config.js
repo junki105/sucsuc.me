@@ -108,6 +108,11 @@ export default {
         name: 'og:description',
         content: '',
       },
+      {
+        hid: 'og:image',
+        name: 'og:image',
+        content: `${process.env.BASE_URL}/logo-icon-512x512.png`,
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
