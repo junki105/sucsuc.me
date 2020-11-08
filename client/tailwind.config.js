@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         twitter: '#1DA1F2',
         facebook: '#4267B2',
+        brand: '#44bb87',
       },
     },
   },

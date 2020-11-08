@@ -38,7 +38,7 @@
       <div class="w-full max-w-lg mx-auto flex justify-center my-6">
         <nuxt-link
           to="/search"
-          class="px-8 py-3 bg-indigo-400 text-white text-2xl shadow-xl rounded-full hover:opacity-75"
+          class="px-8 py-3 bg-brand text-white text-2xl shadow-xl rounded-full hover:opacity-75"
         >
           <font-awesome-icon :icon="['fas', 'search']" class="mr-1" />
           プランを探す
