@@ -111,7 +111,7 @@ export default {
       {
         hid: 'og:image',
         name: 'og:image',
-        content: `${process.env.BASE_URL}/logo-icon-512x512.png`,
+        content: `${process.env.BASE_URL}logo-icon-512x512.png`,
       },
     ],
     link: [

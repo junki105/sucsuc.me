@@ -38,123 +38,8 @@
       <modal ref="retrieveBank" title="銀行情報" close-text="閉じる">
         <bank-item-list v-if="bank" :bank="bank" />
       </modal>
-      <modal
-        ref="createBank"
-        title="銀行情報を登録"
-        action-text="登録する"
-        close-text="キャンセル"
-        :handle-action-modal="submitBankModal"
-      >
-        <ValidationObserver ref="observer">
-          <form action="" method="post" class="pt-6 pb-8">
-            <div class="flex flex-wrap mx-3 mb-6">
-              <div class="w-full md:w-1/2 px-3 mb-2">
-                <label
-                  class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
-                  for="name"
-                >
-                  銀行コード
-                </label>
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  name="銀行コード"
-                  rules="required"
-                >
-                  <input
-                    v-model="form.bankCode"
-                    type="text"
-                    placeholder="銀行コード"
-                    class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"
-                    :class="{ 'border-red': false }"
-                  />
-                  <p
-                    v-if="errors.length > 0"
-                    class="text-red-500 text-xs italic"
-                    v-text="errors[0]"
-                  />
-                </ValidationProvider>
-              </div>
-              <div class="w-full md:w-1/2 px-3 mb-2">
-                <label
-                  class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
-                  for="email"
-                >
-                  支店コード
-                </label>
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  name="支店コード"
-                  rules="required"
-                >
-                  <input
-                    v-model="form.branchCode"
-                    type="text"
-                    placeholder="支店コード"
-                    class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    :class="{ 'border-red': false }"
-                  />
-                  <p
-                    v-if="errors.length > 0"
-                    class="text-red-500 text-xs italic"
-                    v-text="errors[0]"
-                  />
-                </ValidationProvider>
-              </div>
-              <div class="w-full md:w-1/2 px-3 mb-2">
-                <label
-                  class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
-                  for="email"
-                >
-                  口座番号
-                </label>
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  name="口座番号"
-                  rules="required"
-                >
-                  <input
-                    v-model="form.accountNumber"
-                    type="text"
-                    placeholder="口座番号"
-                    class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    :class="{ 'border-red': false }"
-                  />
-                  <p
-                    v-if="errors.length > 0"
-                    class="text-red-500 text-xs italic"
-                    v-text="errors[0]"
-                  />
-                </ValidationProvider>
-              </div>
-              <div class="w-full md:w-1/2 px-3 mb-2">
-                <label
-                  class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
-                  for="email"
-                >
-                  口座名義
-                </label>
-                <ValidationProvider
-                  v-slot="{ errors }"
-                  name="口座名義"
-                  rules="required"
-                >
-                  <input
-                    v-model="form.accountHolderName"
-                    type="text"
-                    placeholder="口座名義"
-                    class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    :class="{ 'border-red': false }"
-                  />
-                  <p
-                    v-if="errors.length > 0"
-                    class="text-red-500 text-xs italic"
-                    v-text="errors[0]"
-                  />
-                </ValidationProvider>
-              </div>
-            </div>
-          </form>
-        </ValidationObserver>
+      <modal ref="createBank" title="銀行情報を登録" close-text="キャンセル">
+        <bank-register-form :handleSubmit="submitBankModal" />
       </modal>
     </portal>
   </div>
@@ -169,6 +54,7 @@ import { Breadcrumb } from '../../core/entities/Breadcrumb'
 import Modal from '../components/Modal.vue'
 import MypageMenuItem from '../components/MypageMenuItem.vue'
 import BankItemList from '../components/BankItemList.vue'
+import BankRegisterForm, { BankForm } from '../components/BankRegisterForm.vue'
 import ChargeTable from '../components/ChargeTable.vue'
 import { ChargeList, Charge } from '../../core/entities/Charge'
 import { Bank } from '../../core/entities/Bank'
@@ -179,12 +65,6 @@ interface DataType {
   charges: Charge[]
   hasMoreCharges: boolean
   bank: Bank | null
-  form: {
-    accountHolderName: string
-    accountNumber: string
-    bankCode: string
-    branchCode: string
-  }
 }
 
 interface MethodType {
@@ -193,7 +73,7 @@ interface MethodType {
   goToBillingPortal(event: Event): void
   goToStripeConnect(event: Event): void
   openBankForm(event: Event): void
-  submitBankModal(): void
+  submitBankModal(event: Event, form: BankForm): void
   onLogout(event: Event): void
 }
 
@@ -206,6 +86,7 @@ interface PropType {}
 export default Vue.extend({
   components: {
     BankItemList,
+    BankRegisterForm,
     ChargeTable,
     Modal,
     MypageMenuItem,
@@ -225,13 +106,7 @@ export default Vue.extend({
     return {
       charges: [] as Charge[],
       hasMoreCharges: false,
-      bank: null as Bank | null,
-      form: {
-        accountHolderName: '',
-        accountNumber: '',
-        bankCode: '',
-        branchCode: '',
-      },
+      bank: null as Bank | null
     }
   },
   computed: {
@@ -403,7 +278,7 @@ export default Vue.extend({
         this.$nuxt.$loading.finish()
       }
     },
-    async submitBankModal(): Promise<void> {
+    async submitBankModal(event: Event, form: BankForm): Promise<void> {
       if (!this.isMentor) {
         return
       }
@@ -412,9 +287,9 @@ export default Vue.extend({
       this.$axios.setHeader('Authorization', `Bearer ${token}`)
       try {
         await this.$axios.$post('/.netlify/functions/create_bank', {
-          account_holder_name: this.form.accountHolderName,
-          account_number: this.form.accountNumber,
-          routing_number: `${this.form.bankCode}${this.form.branchCode}`,
+          account_holder_name: form.accountHolderName,
+          account_number: form.accountNumber,
+          routing_number: `${form.bankCode}${form.branchCode}`,
         })
       } catch (err) {
         // eslint-disable-next-line no-console
