@@ -13,7 +13,17 @@ export type RootState = ReturnType<typeof state>
 export const getters: GetterTree<RootState, RootState> = {
   plans: state => state.plans,
   authorPlanPosts: state => (author: Author) => {
-    return state.plans.filter((plan: Plan) => plan.author.slug === author.slug)
+    const plans = state.plans.filter((plan: Plan) => plan.author.slug === author.slug)
+    plans.sort((a, b) => {
+      if(a.price < b.price) {
+        return -1;
+      }
+      if(a.price > b.price) {
+        return 1;
+      }
+      return 0;
+    })
+    return plans
   },
 }
 

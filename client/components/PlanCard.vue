@@ -5,10 +5,7 @@
     <slot name="header" />
     <div class="pl-8">
       <nuxt-link :to="`/plan/${plan.slug}`">
-        <p
-          class="text-lg font-bold hover:text-indigo-600"
-          v-text="plan.title"
-        />
+        <p class="text-lg font-bold hover:text-brand" v-text="plan.title" />
         <p class="text-xs text-gray-700 mb-1" v-text="plan.description" />
       </nuxt-link>
       <div class="mb-2">
@@ -27,7 +24,17 @@
         </hashtag>
       </div>
       <div class="flex justify-between items-center">
-        <div>
+        <div class="flex items-center">
+          <span
+            v-if="isMonthly"
+            class="font-bold bg-blue-100 text-blue-500 text-xs rounded px-4 py-1 mr-2"
+            >サブスク</span
+          >
+          <span
+            v-else
+            class="font-bold bg-red-100 text-red-500 text-xs rounded px-4 py-1 mr-2"
+            >１回のみ</span
+          >
           <p class="font-semibold text-xl text-gray-800">
             <span class="mr-1">¥</span>
             <span v-text="plan.price.toLocaleString()" />
