@@ -7,10 +7,10 @@
             <a
               class="text-xs font-bold uppercase px-5 py-3 shadow-lg border-r md:border-none md:rounded block leading-normal"
               :class="{
-                'text-blue-400 bg-white': openTab !== 1,
-                'text-white bg-blue-400': openTab === 1,
+                'text-brand bg-white': openTab !== 1,
+                'text-white bg-brand': openTab === 1,
               }"
-              @click="toggleTabs(1)"
+              @click.prevent="toggleTabs(1)"
             >
               Profile
             </a>
@@ -19,24 +19,12 @@
             <a
               class="text-xs font-bold uppercase px-5 py-3 shadow-lg border-r md:border-none md:rounded block leading-normal"
               :class="{
-                'text-blue-400 bg-white': openTab !== 2,
-                'text-white bg-blue-400': openTab === 2,
+                'text-brand bg-white': openTab !== 2,
+                'text-white bg-brand': openTab === 2,
               }"
-              @click="toggleTabs(2)"
+              @click.prevent="toggleTabs(2)"
             >
               Plan
-            </a>
-          </li>
-          <li class="-mb-px md:mr-2 last:mr-0 flex-auto text-center">
-            <a
-              class="text-xs font-bold uppercase px-5 py-3 shadow-lg md:rounded block leading-normal"
-              :class="{
-                'text-blue-400 bg-white': openTab !== 3,
-                'text-white bg-blue-400': openTab === 3,
-              }"
-              @click="toggleTabs(3)"
-            >
-              Blog
             </a>
           </li>
         </ul>
@@ -130,6 +118,7 @@ export default Vue.extend({
   components: {
     PlanCard,
   },
+  watchQuery: ['t'],
   validate(context: Context): boolean {
     const slug = context.params.slug
     const authors = context.store.getters['author/authors'] || []
@@ -191,6 +180,12 @@ export default Vue.extend({
       ],
     }
   },
+  mounted() {
+    const route = this.$route as any
+    if (route.query && route.query.t && parseInt(route.query.t) === 2) {
+      this.openTab = parseInt(route.query.t)
+    }
+  },
   methods: {
     toggleTabs(tab: number): void {
       this.openTab = tab
@@ -198,5 +193,3 @@ export default Vue.extend({
   },
 } as ThisTypedComponentOptionsWithRecordProps<Vue, DataType, MethodType, ComputedType, PropType>)
 </script>
-
-<style></style>

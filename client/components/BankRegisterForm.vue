@@ -1,12 +1,20 @@
 <template>
   <ValidationObserver ref="observer" v-slot="{ invalid }">
-    <form method="post" class="pt-6 pb-8" @submit.prevent="handleSubmit($event, form)">
+    <form
+      method="post"
+      class="pt-6 pb-8"
+      @submit.prevent="handleSubmit($event, form)"
+    >
       <div class="flex flex-wrap mx-3 mb-6">
         <p class="w-full px-3 mb-2 text-xs">
           銀行コード・支店コードは
-          <a href="https://zengin.ajtw.net/" class="text-blue-500" target="_blank">
+          <a
+            href="https://zengin.ajtw.net/"
+            class="text-blue-500"
+            target="_blank"
+          >
             こちら
-              <sup class="text-xs">
+            <sup class="text-xs">
               <font-awesome-icon :icon="[`fas`, `external-link-alt`]" />
             </sup>
           </a>
@@ -20,11 +28,12 @@
             銀行コード
           </label>
           <p class="text-gray-600 text-xs mb-2">
-            銀行コードは<span class="font-bold">半角数字4文字</span>で入力ください
+            銀行コードは<span class="font-bold">半角数字4文字</span
+            >で入力ください
           </p>
           <ValidationProvider
-            :rules="{ required: true, regex: /^[0-9]{4}$/ }"
             v-slot="{ errors }"
+            :rules="{ required: true, regex: /^[0-9]{4}$/ }"
             name="銀行コード"
           >
             <input
@@ -49,11 +58,12 @@
             支店コード
           </label>
           <p class="text-gray-600 text-xs mb-2">
-            支店コードは<span class="font-bold">半角数字3文字</span>で入力ください
+            支店コードは<span class="font-bold">半角数字3文字</span
+            >で入力ください
           </p>
           <ValidationProvider
-            :rules="{ required: true, regex: /^[0-9]{3}$/ }"
             v-slot="{ errors }"
+            :rules="{ required: true, regex: /^[0-9]{3}$/ }"
             name="支店コード"
           >
             <input
@@ -78,11 +88,14 @@
             口座番号
           </label>
           <p class="text-gray-600 text-xs mb-2">
-            口座番号は<span class="font-bold">半角7桁の数値</span>で入力ください。ゆうちょ銀行の場合<span class="font-bold">半角8桁の数値</span>になります。
+            口座番号は<span class="font-bold">半角7桁の数値</span
+            >で入力ください。ゆうちょ銀行の場合<span class="font-bold"
+              >半角8桁の数値</span
+            >になります。
           </p>
           <ValidationProvider
-            :rules="{ required: true, regex: /^[0-9]{7,8}$/ }"
             v-slot="{ errors }"
+            :rules="{ required: true, regex: /^[0-9]{7,8}$/ }"
             name="口座番号"
           >
             <input
@@ -107,11 +120,16 @@
             口座名義
           </label>
           <p class="text-gray-600 text-xs mb-2">
-            口座名義は<span class="font-bold">全角カナ（姓・名の間に全角スペースが必要）</span>で入力ください。
+            口座名義は<span class="font-bold"
+              >全角カナ（姓・名の間に全角スペースが必要）</span
+            >で入力ください。
           </p>
           <ValidationProvider
-            :rules="{ required: true, regex: /^[ァ-ンヴー]+　[ァ-ンヴー]+$/ }"
             v-slot="{ errors }"
+            :rules="{
+              required: true,
+              regex: /^[ァ-ンヴー]+[\x20\u3000]?[ァ-ンヴー]+$/,
+            }"
             name="口座名義"
           >
             <input
@@ -147,10 +165,10 @@
 import Vue, { PropOptions } from 'vue'
 
 export interface BankForm {
-    accountHolderName: String;
-    accountNumber: String;
-    bankCode: String;
-    branchCode: String;
+  accountHolderName: String
+  accountNumber: String
+  bankCode: String
+  branchCode: String
 }
 
 export default Vue.extend({
@@ -159,7 +177,7 @@ export default Vue.extend({
       type: Function,
       required: false,
       default: () => {},
-    } as PropOptions<Function>
+    } as PropOptions<Function>,
   },
   data() {
     return {

@@ -39,7 +39,7 @@
         <bank-item-list v-if="bank" :bank="bank" />
       </modal>
       <modal ref="createBank" title="銀行情報を登録" close-text="キャンセル">
-        <bank-register-form :handleSubmit="submitBankModal" />
+        <bank-register-form :handle-submit="submitBankModal" />
       </modal>
     </portal>
   </div>
@@ -106,7 +106,7 @@ export default Vue.extend({
     return {
       charges: [] as Charge[],
       hasMoreCharges: false,
-      bank: null as Bank | null
+      bank: null as Bank | null,
     }
   },
   computed: {
@@ -279,6 +279,7 @@ export default Vue.extend({
       }
     },
     async submitBankModal(event: Event, form: BankForm): Promise<void> {
+      event.preventDefault()
       if (!this.isMentor) {
         return
       }
