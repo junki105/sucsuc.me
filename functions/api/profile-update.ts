@@ -31,7 +31,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
       variables: { netlifyID: user.sub },
     });
 
-    const before = profileResult.data
+    const before = profileResult.data.getProfileByNetlifyID
       ? (profileResult.data.getProfileByNetlifyID.categories.data as Category[]).map((c: Category) => c._id) as Number[]
       : []
     const after = (profile.categories as Category[]).map((c: Category) => c._id) as Number[]

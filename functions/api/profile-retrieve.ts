@@ -38,7 +38,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     query: Fauna.Query.getProfileByNetlifyID,
     variables: { netlifyID: user.sub },
   });
-  const profile = userResult.data
+  const profile = userResult.data.getProfileByNetlifyID
     ? convertProfile(userResult.data.getProfileByNetlifyID)
     : {
         _id: null,
