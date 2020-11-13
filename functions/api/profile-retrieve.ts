@@ -28,20 +28,15 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     }
   }
 
-  const categoryResult = await faunaFetch({
-    query: Fauna.Query.allCategories,
-    variables: {},
-  });
-  const categories: Category[] = categoryResult.data ? categoryResult.data.allCategories.data : []
   const user: User = clientContext.user;
   const userResult = await faunaFetch({
     query: Fauna.Query.getProfileByNetlifyID,
     variables: { netlifyID: user.sub },
   });
-  const profile = userResult.data.getProfileByNetlifyID
+  const profile: Profile = userResult.data.getProfileByNetlifyID
     ? convertProfile(userResult.data.getProfileByNetlifyID)
     : {
-        _id: null,
+        _id: undefined,
         username: '', 
         name: user.user_metadata.full_name || '',
         categories: [] as Category[],
@@ -52,9 +47,9 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         facebook: '',
         github: '',
         instagram: '',
-      }
+      } as Profile
   return {
     statusCode: 200,
-    body: JSON.stringify({ profile, categories })
+    body: JSON.stringify({ profile })
   };
 }

@@ -60,7 +60,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    openProfileModal(): void {
+    async openProfileModal(): Promise<void> {
+      await this.$store.dispatch('auth/fetchProfile')
       ;(this.$refs as any).modal.show()
     },
     async submitPostProfile(event: Event, profile: Profile): Promise<void> {

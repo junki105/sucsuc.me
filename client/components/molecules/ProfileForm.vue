@@ -124,7 +124,6 @@
             <input
               v-model="form.twitter"
               type="text"
-              placeholder="Twitter"
               class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               :class="{ 'border-red': false }"
             />
@@ -190,6 +189,33 @@
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
             Instagramのユーザー名を<span class="font-bold"
+              >半角英数字(一部記号可)</span
+            >で入力ください
+          </p>
+        </div>
+        <div class="w-full md:w-1/2 px-3 mb-2">
+          <input-label for-input="github" :required="false">
+            Github
+          </input-label>
+          <ValidationProvider
+            v-slot="{ errors }"
+            :rules="{ regex: /^[a-zA-Z0-9_]*$/ }"
+            name="Github"
+          >
+            <input
+              v-model="form.github"
+              type="text"
+              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              :class="{ 'border-red': false }"
+            />
+            <p
+              v-if="errors.length > 0"
+              class="text-red-500 text-xs italic"
+              v-text="errors[0]"
+            />
+          </ValidationProvider>
+          <p class="text-gray-600 text-xs mb-2">
+            Githubのユーザー名を<span class="font-bold"
               >半角英数字(一部記号可)</span
             >で入力ください
           </p>

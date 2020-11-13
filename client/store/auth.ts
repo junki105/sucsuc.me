@@ -63,19 +63,22 @@ export const actions: ActionTree<RootState, RootState> = {
   logout({ commit }) {
     this.$netlifyIdentity.logout()
     commit('SET_USER', null)
+    commit('SET_PROFILE', null)
   },
-  open({ dispatch, commit }, action) {
+  open({ commit }, action) {
     this.$netlifyIdentity.open(action)
     this.$netlifyIdentity.on(action, (user: User) => {
       commit('SET_USER', user)
-      dispatch('fetchProfile')
       this.$netlifyIdentity.close()
     })
   },
   refresh() {
     return this.$netlifyIdentity.refresh()
   },
-  async fetchProfile({ commit }) {
+  async fetchProfile({ getters, commit }) {
+    if (getters.profile) {
+      return
+    }
     const token = await this.$netlifyIdentity.refresh()
     this.$axios.setHeader('Authorization', `Bearer ${token}`)
     const { profile } = await this.$axios.$post('/.netlify/functions/profile-retrieve')
