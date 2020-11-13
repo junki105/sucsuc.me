@@ -7,7 +7,7 @@
 <style scoped>
 @font-face {
   font-family: 'ConcertOne';
-  src: url('../assets/ttf/ConcertOne-Regular.ttf');
+  src: url('../../assets/ttf/ConcertOne-Regular.ttf');
 }
 
 .logo {

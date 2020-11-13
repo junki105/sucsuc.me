@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Bank } from '../../core/entities/Bank'
+import { Bank } from '../../../core/entities/Bank'
 
 export default Vue.extend({
   props: {

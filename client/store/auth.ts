@@ -1,11 +1,13 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import { User } from 'netlify-identity-widget'
+import { Profile } from '../../core/entities/Profile'
 
 export const ACTION_KEY_LOGIN = 'login'
 export const ACTION_KEY_SIGNUP = 'signup'
 
 export const state = () => ({
-  user: null as User|null
+  user: null as User|null,
+  profile: null as Profile|null
 })
 
 export type RootState = ReturnType<typeof state>
@@ -19,26 +21,32 @@ export const getters: GetterTree<RootState, RootState> = {
         state.user.app_metadata.roles &&
         state.user.app_metadata.roles.includes('Mentor')
       )
-    }
+    },
+    profile: (state) => state.profile,
 }
 
 export const mutations: MutationTree<RootState> = {
   SET_USER(state, user: User|null) {
     state.user = user
+  },
+  SET_PROFILE(state, profile: Profile|null) {
+    state.profile = profile
   }
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  init({ commit }) {
+  init({ dispatch, commit }) {
     this.$netlifyIdentity.on('init', (user: User) => {
       if (user) {
         commit('SET_USER', user)
+        dispatch('fetchProfile')
       }
     })
     this.$netlifyIdentity.on('close', () => {
       const user = this.$netlifyIdentity.currentUser()
       if (user) {
         commit('SET_USER', user)
+        dispatch('fetchProfile')
       }
     })
     this.$netlifyIdentity.init({
@@ -56,14 +64,33 @@ export const actions: ActionTree<RootState, RootState> = {
     this.$netlifyIdentity.logout()
     commit('SET_USER', null)
   },
-  open({ commit }, action) {
+  open({ dispatch, commit }, action) {
     this.$netlifyIdentity.open(action)
     this.$netlifyIdentity.on(action, (user: User) => {
       commit('SET_USER', user)
+      dispatch('fetchProfile')
       this.$netlifyIdentity.close()
     })
   },
   refresh() {
     return this.$netlifyIdentity.refresh()
+  },
+  async fetchProfile({ commit }) {
+    const token = await this.$netlifyIdentity.refresh()
+    this.$axios.setHeader('Authorization', `Bearer ${token}`)
+    const { profile } = await this.$axios.$post('/.netlify/functions/profile-retrieve')
+    commit('SET_PROFILE', profile)
+  },
+  setProfile({ commit }, profile) {
+    commit('SET_PROFILE', profile)
+  },
+  async updateProfile({ commit }, profile) {
+    const token = await this.$netlifyIdentity.refresh()
+    this.$axios.setHeader('Authorization', `Bearer ${token}`)
+    const savedProfile = await this.$axios.$post(
+      '/.netlify/functions/profile-update',
+      profile
+    )
+    commit('SET_PROFILE', savedProfile)
   }
 }

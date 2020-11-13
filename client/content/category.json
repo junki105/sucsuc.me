@@ -1,20 +1,19 @@
 {
-  "categories": [
-    {
-      "label": "システムエンジニア",
-      "value": "systemEnginner"
-    },
-    {
-      "label": "プログラマー",
-      "value": "Programmer"
-    },
-    {
-      "label": "デザイナー",
-      "value": "designer"
-    },
-    {
-      "label": "マーケッター",
-      "value": "marketter"
-    }
-  ]
+    "categories": [
+        {
+            "_id": "281963261446849031",
+            "label": "エンジニア",
+            "value": "systemEnginner"
+        },
+        {
+            "_id": "281964223627526663",
+            "label": "プログラマー",
+            "value": "Programmer"
+        },
+        {
+            "_id": "281964237045105159",
+            "label": "デザイナー",
+            "value": "designer"
+        }
+    ]
 }

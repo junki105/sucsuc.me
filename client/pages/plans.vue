@@ -59,9 +59,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
-import Hashtag from '../elements/Hashtag.vue'
-import PlanCard from '../components/PlanCard.vue'
-import ProfileIcon from '../components/ProfileIcon.vue'
+import Hashtag from '@/components/atoms/Hashtag.vue'
+import PlanCard from '@/components/molecules/PlanCard.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
 import { Hashtag as HashtagData } from '../../core/entities/Hashtag'
 import { Plan } from '../../core/entities/Plan'
 import { Breadcrumb } from '../../core/entities/Breadcrumb'

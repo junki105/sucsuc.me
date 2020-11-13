@@ -29,11 +29,11 @@
 import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
+import PlanCard from '@/components/molecules/PlanCard.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
 import { Breadcrumb } from '../../../../core/entities/Breadcrumb'
 import { Plan } from '../../../../core/entities/Plan'
 import { Hashtag } from '../../../../core/entities/Hashtag'
-import PlanCard from '../../../components/PlanCard.vue'
-import ProfileIcon from '../../../components/ProfileIcon.vue'
 
 interface DataType {
   tag: Hashtag

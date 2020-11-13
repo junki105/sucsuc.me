@@ -15,8 +15,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
+import Document from '@/components/atoms/Document.vue'
 import { Breadcrumb } from '../../core/entities/Breadcrumb'
-import Document from '../elements/Document.vue'
 
 const title = '特定商取引法に基づく表記'
 

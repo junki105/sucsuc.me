@@ -8,11 +8,12 @@
     "build": "nuxt-ts build",
     "build:functions": "netlify-lambda build functions/api",
     "start": "nuxt-ts start",
-    "generate": "yarn build:functions && nuxt-ts generate",
+    "generate": "npm run generate:json && npm run build:functions && nuxt-ts generate",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "test": "jest"
+    "test": "jest",
+    "generate:json": "ts-node batch/generateJson.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -40,7 +41,8 @@
     "portal-vue": "^2.1.7",
     "stripe": "^8.93.0",
     "vee-validate": "^3.4.2",
-    "vue-disqus": "^4.0.0"
+    "vue-disqus": "^4.0.0",
+    "vue-multiselect": "^2.1.6"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.4",

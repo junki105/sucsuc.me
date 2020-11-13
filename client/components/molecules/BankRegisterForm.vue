@@ -21,16 +21,7 @@
           から検索してください。
         </p>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold"
-            for="name"
-          >
-            銀行コード
-          </label>
-          <p class="text-gray-600 text-xs mb-2">
-            銀行コードは<span class="font-bold">半角数字4文字</span
-            >で入力ください
-          </p>
+          <input-label for-input="bankCode"> 銀行コード </input-label>
           <ValidationProvider
             v-slot="{ errors }"
             :rules="{ required: true, regex: /^[0-9]{4}$/ }"
@@ -49,18 +40,13 @@
               v-text="errors[0]"
             />
           </ValidationProvider>
-        </div>
-        <div class="w-full md:w-1/2 px-3 mb-2">
-          <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold"
-            for="email"
-          >
-            支店コード
-          </label>
           <p class="text-gray-600 text-xs mb-2">
-            支店コードは<span class="font-bold">半角数字3文字</span
+            銀行コードは<span class="font-bold">半角数字4文字</span
             >で入力ください
           </p>
+        </div>
+        <div class="w-full md:w-1/2 px-3 mb-2">
+          <input-label for-input="branchCode"> 支店コード </input-label>
           <ValidationProvider
             v-slot="{ errors }"
             :rules="{ required: true, regex: /^[0-9]{3}$/ }"
@@ -79,20 +65,13 @@
               v-text="errors[0]"
             />
           </ValidationProvider>
+          <p class="text-gray-600 text-xs mb-2">
+            支店コードは<span class="font-bold">半角数字3文字</span
+            >で入力ください
+          </p>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold"
-            for="email"
-          >
-            口座番号
-          </label>
-          <p class="text-gray-600 text-xs mb-2">
-            口座番号は<span class="font-bold">半角7桁の数値</span
-            >で入力ください。ゆうちょ銀行の場合<span class="font-bold"
-              >半角8桁の数値</span
-            >になります。
-          </p>
+          <input-label for-input="accountNumber"> 口座番号 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
             :rules="{ required: true, regex: /^[0-9]{7,8}$/ }"
@@ -111,19 +90,15 @@
               v-text="errors[0]"
             />
           </ValidationProvider>
+          <p class="text-gray-600 text-xs mb-2">
+            口座番号は<span class="font-bold">半角7桁の数値</span
+            >で入力ください。ゆうちょ銀行の場合<span class="font-bold"
+              >半角8桁の数値</span
+            >になります。
+          </p>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold"
-            for="email"
-          >
-            口座名義
-          </label>
-          <p class="text-gray-600 text-xs mb-2">
-            口座名義は<span class="font-bold"
-              >全角カナ（姓・名の間に全角スペースが必要）</span
-            >で入力ください。
-          </p>
+          <input-label for-input="accountNumber"> 口座名義 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
             :rules="{
@@ -145,6 +120,11 @@
               v-text="errors[0]"
             />
           </ValidationProvider>
+          <p class="text-gray-600 text-xs mb-2">
+            口座名義は<span class="font-bold"
+              >全角カナ（姓・名の間に全角スペースが必要）</span
+            >で入力ください。
+          </p>
         </div>
       </div>
       <div class="flex items-center justify-center">
@@ -163,6 +143,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
+import InputLabel from '@/components/atoms/InputLabel.vue'
 
 export interface BankForm {
   accountHolderName: String
@@ -172,6 +153,9 @@ export interface BankForm {
 }
 
 export default Vue.extend({
+  components: {
+    InputLabel,
+  },
   props: {
     handleSubmit: {
       type: Function,

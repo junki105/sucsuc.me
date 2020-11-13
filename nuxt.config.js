@@ -122,7 +122,10 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@fortawesome/fontawesome-svg-core/styles.css'],
+  css: [
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    'vue-multiselect/dist/vue-multiselect.min.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -180,7 +183,7 @@ export default {
   render: {
     fallback: false,
   },
-  loading: '~/components/Loading.vue',
+  loading: '~/components/molecules/Loading.vue',
   sitemap: {
     hostname: process.env.BASE_URL || `http://localhost:3000/`,
     lastmod: '2020-11-03',

@@ -1,8 +1,14 @@
 <template>
   <div class="py-10">
     <div class="max-w-6xl mx-auto px-2">
-      <h2 class="font-semibold text-center text-xl text-gray-800 lg:text-3xl">
-        <font-awesome-icon :icon="['fas', 'lightbulb']" class="mr-1" />
+      <h2
+        class="flex justify-center items-center font-semibold text-center text-xl text-gray-800 lg:text-3xl"
+      >
+        <img
+          src="~/assets/img/icons/lightbulb-32x32.png"
+          alt="ピックアップ"
+          class="mr-2"
+        />
         ピックアップ
       </h2>
       <p class="text-center text-xs text-gray-700 lg:text-sm">
@@ -50,9 +56,9 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Plan } from '../../core/entities/Plan'
-import ProfileIcon from './ProfileIcon.vue'
-import PlanCard from './PlanCard.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
+import PlanCard from '@/components/molecules/PlanCard.vue'
+import { Plan } from '../../../../core/entities/Plan'
 
 export default Vue.extend({
   components: {

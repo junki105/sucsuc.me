@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Charge } from '../../core/entities/Charge'
+import { Charge } from '../../../core/entities/Charge'
 
 export default Vue.extend({
   props: {
