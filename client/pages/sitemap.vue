@@ -78,8 +78,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
+import SitemapCard from '@/components/atoms/SitemapCard.vue'
 import { Breadcrumb } from '../../core/entities/Breadcrumb'
-import SitemapCard from '../components/SitemapCard.vue'
 
 const title = 'サイトマップ'
 

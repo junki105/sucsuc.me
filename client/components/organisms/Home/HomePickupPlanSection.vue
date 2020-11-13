@@ -50,9 +50,9 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Plan } from '../../core/entities/Plan'
-import ProfileIcon from './ProfileIcon.vue'
-import PlanCard from './PlanCard.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
+import PlanCard from '@/components/molecules/PlanCard.vue'
+import { Plan } from '../../../../core/entities/Plan'
 
 export default Vue.extend({
   components: {

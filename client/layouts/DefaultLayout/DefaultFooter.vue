@@ -65,7 +65,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Logo from '../../elements/Logo.vue'
+import Logo from '@/components/atoms/Logo.vue'
+
 export default Vue.extend({
   components: {
     Logo,

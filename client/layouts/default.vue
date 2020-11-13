@@ -4,6 +4,7 @@
       <div class="wrap-parent min-h-screen flex flex-col">
         <default-header
           :user="user || {}"
+          :profile="profile || {}"
           @signup="openSignup"
           @login="openLogin"
           @logout="onLogout"
@@ -55,10 +56,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-import Breadcrumb from '../components/Breadcrumb.vue'
-import ProfileIcon from '../components/ProfileIcon.vue'
-import DefaultHeader from './DefaultLayout/DefaultHeader.vue'
-import DefaultFooter from './DefaultLayout/DefaultFooter.vue'
+import Breadcrumb from '@/components/molecules/Breadcrumb.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
+import DefaultHeader from '@/layouts/DefaultLayout/DefaultHeader.vue'
+import DefaultFooter from '@/layouts/DefaultLayout/DefaultFooter.vue'
+
+import { User } from 'netlify-identity-widget'
+import { Profile } from '../../core/entities/Profile'
 
 export default Vue.extend({
   components: {
@@ -71,14 +75,17 @@ export default Vue.extend({
     showPageTitle() {
       return this.$route.name !== 'search'
     },
+    user(): User {
+      return this.$store.getters['auth/user']
+    },
+    profile(): Profile {
+      return this.$store.getters['auth/profile']
+    },
     ...mapGetters({
       pageTitle: 'pageTitle',
       pageDescription: 'pageDescription',
       pageImage: 'pageImage',
       breadcrumbs: 'breadcrumbs',
-    }),
-    ...mapGetters({
-      user: 'auth/user',
     }),
   },
   methods: {

@@ -94,10 +94,10 @@
 import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
+import PlanCard from '@/components/molecules/PlanCard.vue'
 import { Author } from '../../../core/entities/Author'
 import { Breadcrumb } from '../../../core/entities/Breadcrumb'
 import { Plan } from '../../../core/entities/Plan'
-import PlanCard from '../../components/PlanCard.vue'
 
 interface DataType {
   openTab: number

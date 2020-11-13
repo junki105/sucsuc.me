@@ -75,7 +75,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import AccordionCard from './AccordionCard.vue'
+import AccordionCard from '@/components/molecules/AccordionCard.vue'
 
 export default Vue.extend({
   components: {

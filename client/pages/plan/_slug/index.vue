@@ -226,10 +226,10 @@ import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
 import { loadStripe, RedirectToCheckoutOptions } from '@stripe/stripe-js'
+import Modal from '@/components/molecules/Modal.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
 import { Breadcrumb } from '../../../../core/entities/Breadcrumb'
 import { Plan } from '../../../../core/entities/Plan'
-import Modal from '../../../components/Modal.vue'
-import ProfileIcon from '../../../components/ProfileIcon.vue'
 
 interface DataType {
   baseUrl: string

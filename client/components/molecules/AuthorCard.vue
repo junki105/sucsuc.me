@@ -23,8 +23,8 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Author } from '../../core/entities/Author'
-import ProfileIcon from './ProfileIcon.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
+import { Author } from '../../../core/entities/Author'
 
 export default Vue.extend({
   components: {

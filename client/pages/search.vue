@@ -1,7 +1,9 @@
 <template>
   <div class="h-full bg-white">
     <div class="max-w-6xl mx-auto pt-2 pb-6 lg:pt-16">
-      <div class="w-full relative flex justify-end items-center mb-4">
+      <div
+        class="w-full relative flex justify-end items-center mb-4 px-2 lg:px-0"
+      >
         <input
           v-model="q"
           type="text"
@@ -9,16 +11,8 @@
           placeholder="Search..."
           @input="search"
         />
-        <span class="absolute mr-3">
-          <svg
-            class="fill-current pointer-events-none text-gray-600 w-5 h-5 lg:w-8 lg:h-8"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
-            ></path>
-          </svg>
+        <span class="absolute mr-3 text-gray-600">
+          <font-awesome-icon :icon="['fas', 'search']" />
         </span>
       </div>
       <div v-if="authors.length > 0" class="mb-10">
@@ -60,7 +54,7 @@
           </div>
         </h3>
         <div v-for="(plan, index) in plans" :key="index" class="mb-2">
-          <plan-card :plan="plan">
+          <plan-card :plan="plan" class="border-b">
             <template v-slot:header>
               <nuxt-link
                 :to="`/user/${plan.author.slug}`"
@@ -88,9 +82,9 @@
 import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
-import AuthorCard from '../components/AuthorCard.vue'
-import PlanCard from '../components/PlanCard.vue'
-import ProfileIcon from '../components/ProfileIcon.vue'
+import AuthorCard from '@/components/molecules/AuthorCard.vue'
+import PlanCard from '@/components/molecules/PlanCard.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
 import { Author } from '../../core/entities/Author'
 import { Plan } from '../../core/entities/Plan'
 

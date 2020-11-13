@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Breadcrumb } from '../../core/entities/Breadcrumb'
+import { Breadcrumb } from '../../../core/entities/Breadcrumb'
 
 export default Vue.extend({
   props: {

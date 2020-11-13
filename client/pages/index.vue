@@ -11,8 +11,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
-import HomeFaqSection from '../components/HomeFaqSection.vue'
-import HomePickupPlanSection from '../components/HomePickupPlanSection.vue'
+import HomeFaqSection from '@/components/organisms/Home/HomeFaqSection.vue'
+import HomePickupPlanSection from '@/components/organisms/Home/HomePickupPlanSection.vue'
 import { Plan } from '../../core/entities/Plan'
 import { shuffle } from '../../core/utils/array'
 
