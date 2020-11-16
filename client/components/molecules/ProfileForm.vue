@@ -7,7 +7,7 @@
     >
       <div class="flex flex-wrap mx-3 mb-6">
         <div class="w-full flex items-center justify-center mb-4">
-          <div class="relative w-32 h-32">
+          <div class="relative">
             <div
               v-show="form.profileImage"
               class="absolute cursor-pointer top-0 right-0 mr-1 mt-1 hover:opacity-75"
@@ -20,7 +20,7 @@
               </div>
             </div>
             <div
-              class="w-full h-full flex items-center justify-center bg-gray-100 border rounded-full cursor-pointer object-cover object-center bg-center"
+              class=" w-32 h-32 flex items-center justify-center bg-gray-100 border rounded-full cursor-pointer bg-cover bg-no-repeat bg-center"
               :style="profileImageStyle"
               @click.prevent="$refs.file.click()"
             >
