@@ -60,7 +60,7 @@ export namespace Fauna {
             }
         `
         export const createProfile = `
-            mutation ($netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $categories: [ID]!) {
+            mutation ($netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $categories: [ID]!) {
                 createProfile(data: {
                     netlifyID: $netlifyID,
                     username: $username,
@@ -69,7 +69,8 @@ export namespace Fauna {
                     website: $website,
                     twitter: $twitter,
                     facebook: $facebook,
-                    instagram: $instagram
+                    instagram: $instagram,
+                    profileImage: $profileImage,
                     categories: {
                         connect: $categories
                     }
@@ -95,7 +96,7 @@ export namespace Fauna {
             }
         `
         export const updateProfile = `
-            mutation ($id: ID!, $netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $connect: [ID]!, $disconnect: [ID]!) {
+            mutation ($id: ID!, $netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $connect: [ID]!, $disconnect: [ID]!) {
                 updateProfile(id: $id, data: {
                     netlifyID: $netlifyID,
                     username: $username,
@@ -104,7 +105,8 @@ export namespace Fauna {
                     website: $website,
                     twitter: $twitter,
                     facebook: $facebook,
-                    instagram: $instagram
+                    instagram: $instagram,
+                    profileImage: $profileImage,
                     categories: {
                         connect: $connect
                         disconnect: $disconnect

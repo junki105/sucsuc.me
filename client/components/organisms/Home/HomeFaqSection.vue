@@ -1,8 +1,14 @@
 <template>
   <div class="bg-white py-10">
     <div class="max-w-6xl mx-auto px-2">
-      <h2 class="flex justify-center items-center font-semibold text-center text-xl text-gray-800 lg:text-3xl">
-        <img src="~/assets/img/icons/question-mark-32x32.png" alt="よくある質問" class="mr-2" />
+      <h2
+        class="flex justify-center items-center font-semibold text-center text-xl text-gray-800 lg:text-3xl"
+      >
+        <img
+          src="~/assets/img/icons/question-mark-32x32.png"
+          alt="よくある質問"
+          class="mr-2"
+        />
         よくある質問
       </h2>
       <p class="text-center text-xs text-gray-700 lg:text-sm">

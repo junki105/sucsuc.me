@@ -6,6 +6,40 @@
       @submit.prevent="handleSubmit($event, form)"
     >
       <div class="flex flex-wrap mx-3 mb-6">
+        <div class="w-full flex items-center justify-center mb-4">
+          <div class="relative w-32 h-32">
+            <div
+              v-show="form.profileImage"
+              class="absolute cursor-pointer top-0 right-0 mr-1 mt-1 hover:opacity-75"
+              @click.prevent="form.profileImage = null"
+            >
+              <div
+                class="flex items-center justify-center rounded-full h-6 w-6 bg-red-600 text-white"
+              >
+                <font-awesome-icon :icon="['fas', 'times']" size="lg" />
+              </div>
+            </div>
+            <div
+              class="w-full h-full flex items-center justify-center bg-gray-100 border rounded-full cursor-pointer object-cover object-center bg-center"
+              :style="profileImageStyle"
+              @click.prevent="$refs.file.click()"
+            >
+              <font-awesome-icon
+                v-show="!form.profileImage"
+                :icon="['fas', 'image']"
+                size="2x"
+                class="text-gray-800"
+              />
+            </div>
+          </div>
+          <input
+            ref="file"
+            type="file"
+            class="w-0 opacity-0"
+            accept="image/*"
+            @change="uploadImage"
+          />
+        </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
           <input-label for-input="username"> ユーザー名 </input-label>
           <ValidationProvider
@@ -245,9 +279,15 @@ import Multiselect from 'vue-multiselect'
 import { Category } from '../../../core/entities/Category'
 import { Profile } from '../../../core/entities/Profile'
 
-interface DataType {}
-interface MethodType {}
-interface ComputedType {}
+interface DataType {
+  form: Profile
+}
+interface MethodType {
+  uploadImage(event: Event): void
+}
+interface ComputedType {
+  profileImageStyle: Object
+}
 interface PropType {
   categories: Category[]
   profile: Profile | null
@@ -277,8 +317,31 @@ export default Vue.extend({
   },
   data() {
     return {
-      form: { ...this.profile },
+      form: { ...this.profile } as Profile,
     }
+  },
+  computed: {
+    profileImageStyle() {
+      return this.form.profileImage
+        ? {
+            backgroundImage: `url(${this.form.profileImage})`,
+          }
+        : {}
+    },
+  },
+  methods: {
+    uploadImage(event: Event): void {
+      event.preventDefault()
+      const target = event.target as HTMLInputElement
+      const files = target.files as FileList
+      Array.from(files).forEach((file: File) => {
+        const reader: FileReader = new FileReader()
+        reader.onload = () => {
+          this.form.profileImage = reader.result as string
+        }
+        reader.readAsDataURL(file)
+      })
+    },
   },
 } as ThisTypedComponentOptionsWithRecordProps<Vue, DataType, MethodType, ComputedType, PropType>)
 </script>
