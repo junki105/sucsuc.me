@@ -43,10 +43,10 @@ export const actions: ActionTree<RootState, RootState> = {
     await dispatch('terms/init');
     await dispatch('law/init');
     await dispatch('privacy/init');
-    const categories = await dispatch('category/init');
-    const hashtags = await dispatch('hashtag/init');
-    const authors = await dispatch('author/init', { categories });
-    await dispatch('blog/init', { authors, hashtags });
-    await dispatch('plan/init', { authors, hashtags });
+    await dispatch('category/init');
+    await dispatch('hashtag/init');
+    await dispatch('author/init');
+    await dispatch('blog/init');
+    await dispatch('product/init');
   },
 }

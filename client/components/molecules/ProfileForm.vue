@@ -20,7 +20,7 @@
               </div>
             </div>
             <div
-              class=" w-32 h-32 flex items-center justify-center bg-gray-100 border rounded-full cursor-pointer bg-cover bg-no-repeat bg-center"
+              class="w-32 h-32 flex items-center justify-center bg-gray-100 border rounded-full cursor-pointer bg-cover bg-no-repeat bg-center"
               :style="profileImageStyle"
               @click.prevent="$refs.file.click()"
             >

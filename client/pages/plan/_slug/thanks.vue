@@ -34,10 +34,10 @@ import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
 import { Breadcrumb } from '../../../../core/entities/Breadcrumb'
-import { Plan } from '../../../../core/entities/Plan'
+import { Product } from '../../../../core/entities/Product'
 
 interface DataType {
-  plan: Plan
+  product: Product
 }
 
 interface MethodType {}
@@ -47,22 +47,22 @@ interface PropType {}
 export default Vue.extend({
   validate(context: Context): boolean {
     const slug = context.params.slug
-    const plans = context.store.getters['plan/plans'] || []
-    return plans.find((p: Plan) => p.slug === slug)
+    const products = context.store.getters['product/products'] || []
+    return products.find((p: Product) => p.uuid === slug)
   },
   asyncData(context: Context): DataType {
     let data = null
     if (context.payload) {
-      data = context.payload as { plan: Plan }
+      data = context.payload as { product: Product }
     } else {
       const slug = context.params.slug
-      const plans = context.store.getters['plan/plans'] || []
-      const plan = plans.find((p: Plan) => p.slug === slug)
-      data = { plan }
+      const products = context.store.getters['product/products'] || []
+      const product = products.find((p: Product) => p.uuid === slug)
+      data = { product }
     }
     context.store.dispatch('setPageInfo', {
-      title: data.plan.title,
-      description: data.plan.description,
+      title: data.product.title,
+      description: data.product.description,
       breadcrumbs: [
         {
           to: '/',
@@ -70,13 +70,13 @@ export default Vue.extend({
           color: 'text-gray-100',
         } as Breadcrumb,
         {
-          to: `/user/${data.plan.author.slug}`,
-          name: data.plan.author.title,
+          to: `/user/${data.product.author._id}`,
+          name: data.product.author.title,
           color: 'text-gray-100',
         } as Breadcrumb,
         {
-          to: `/plan/${data.plan.slug}`,
-          name: data.plan.title,
+          to: `/plan/${data.product.uuid}`,
+          name: data.product.title,
           color: 'text-gray-100',
         } as Breadcrumb,
         { name: `購入完了`, color: 'text-gray-100' } as Breadcrumb,
@@ -89,7 +89,7 @@ export default Vue.extend({
   },
   data(): DataType {
     return {
-      plan: {} as Plan,
+      product: {} as Product,
     }
   },
   head() {
@@ -97,12 +97,12 @@ export default Vue.extend({
       htmlAttrs: {
         lang: 'ja',
       },
-      title: `${this.plan.title}の購入が完了しました`,
+      title: `${this.product.title}の購入が完了しました`,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: `購入完了 - ${this.plan.description}`,
+          content: `購入完了 - ${this.product.description}`,
         },
         {
           hid: 'robots',

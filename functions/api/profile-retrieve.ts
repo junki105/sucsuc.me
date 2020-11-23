@@ -2,8 +2,8 @@ import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
 import faunaFetch, { Fauna } from '../utils/fauna'
 import { Category } from 'core/entities/Category'
-import { Profile } from 'core/entities/Profile'
-import { convertProfile } from '../utils/converter'
+import { Profile, convertProfile } from '../../core/entities/Profile'
+import { Product } from 'core/entities/Product'
 import Stripe from 'stripe'
 
 
@@ -40,6 +40,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
         username: '', 
         name: user.user_metadata.full_name || '',
         categories: [] as Category[],
+        products: [] as Product[],
         profileImage: null,
         body: '',
         website: '',

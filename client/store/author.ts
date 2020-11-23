@@ -1,6 +1,5 @@
 import { GetterTree, ActionTree, MutationTree } from 'vuex'
 import { Author } from '../../core/entities/Author'
-import { Category } from '../../core/entities/Category'
 import Fuse from 'fuse.js'
 
 export const state = () => ({
@@ -21,16 +20,10 @@ export const mutations: MutationTree<RootState> = {
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  async init({ commit }, { categories }): Promise<Author[]> {
+  async init({ commit }): Promise<Author[]> {
     const authorFiles = await require.context('~/content/author/', false, /\.json$/);
-    const authors = authorFiles.keys().map((key: string) => {
-      let res = authorFiles(key);
-      res.slug = key.slice(2, -5);
-      res.categories = res.categoryIds.map((str: string) => categories.find((c: Category) => c.value === str))
-      return res;
-    });
+    const authors = authorFiles.keys().map((key: string) => authorFiles(key));
     await commit('SET_AUTHORS', authors);
-
     return authors;
   },
   search({ state }, q) {

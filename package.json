@@ -30,6 +30,7 @@
     "@stripe/stripe-js": "^1.7.0",
     "@types/netlify-identity-widget": "^1.4.2",
     "@types/node": "^14.0.13",
+    "@types/uuid": "^8.3.0",
     "@types/webpack": "^4.41.17",
     "@types/webpack-env": "^1.15.2",
     "fuse.js": "^6.4.1",
@@ -40,6 +41,7 @@
     "nuxt": "^2.13.0",
     "portal-vue": "^2.1.7",
     "stripe": "^8.93.0",
+    "uuid": "^8.3.1",
     "vee-validate": "^3.4.2",
     "vue-disqus": "^4.0.0",
     "vue-multiselect": "^2.1.6"

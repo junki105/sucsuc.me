@@ -62,7 +62,7 @@ const generateRoute = () => {
     }),
   ]
 }
-const routes = generateRoute()
+const routes = process.env.NODE_ENV === 'production' ? generateRoute() : []
 
 export default {
   env: {

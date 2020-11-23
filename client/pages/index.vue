@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto">
       <div class="flex flex-col md:flex-row"></div>
     </div>
-    <home-pickup-plan-section :plans="pickupPlans" />
+    <home-pickup-product-section :products="pickupProducts" />
     <home-faq-section />
   </div>
 </template>
@@ -12,8 +12,8 @@
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
 import HomeFaqSection from '@/components/organisms/Home/HomeFaqSection.vue'
-import HomePickupPlanSection from '@/components/organisms/Home/HomePickupPlanSection.vue'
-import { Plan } from '../../core/entities/Plan'
+import HomePickupProductSection from '@/components/organisms/Home/HomePickupProductSection.vue'
+import { Product } from '../../core/entities/Product'
 import { shuffle } from '../../core/utils/array'
 
 const title = 'ユーザー同士が課題解決し成長し合えるコミュニティ「SUCSUC」'
@@ -23,22 +23,23 @@ const description =
 export default Vue.extend({
   components: {
     HomeFaqSection,
-    HomePickupPlanSection,
+    HomePickupProductSection,
   },
-  asyncData(context: Context): { plans: Plan[] } {
+  asyncData(context: Context): { products: Product[] } {
     context.store.dispatch('setPageInfo', { title, description })
     return {
-      plans: context.store.getters['plan/plans'],
+      products: context.store.getters['product/products'],
     }
   },
-  data(): { plans: Plan[] } {
+  data(): { products: Product[] } {
     return {
-      plans: [],
+      products: [],
     }
   },
   computed: {
-    pickupPlans(): Plan[] {
-      return shuffle(this.plans).slice(2)
+    pickupProducts(): Product[] {
+      const array = shuffle(this.products)
+      return array.length > 2 ? shuffle(this.products).slice(2) : array
     },
   },
   head() {

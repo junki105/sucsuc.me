@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export namespace Fauna {
     export namespace Query {
@@ -13,25 +13,13 @@ export namespace Fauna {
                 }
             }
         `
-        export const getProfileByID = `
-            query ($id: ID!) {
-                getProfileByID(id: $id) {
-                    _id
-                    username
-                    name
-                    body
-                    profileImage
-                    website
-                    twitter
-                    facebook
-                    github
-                    instagram
-                    categories {
-                        data {
-                            _id
-                            label
-                            value
-                        }
+        export const allHashtags = `
+            query {
+                allHashtags {
+                    data {
+                        _id
+                        label
+                        value
                     }
                 }
             }
@@ -54,6 +42,25 @@ export namespace Fauna {
                             _id
                             label
                             value
+                        }
+                    }
+                    products {
+                        data {
+                            _id
+                            uuid
+                            title
+                            body
+                            description
+                            interval
+                            price
+                            status
+                            hashtags {
+                                data {
+                                    _id
+                                    label
+                                    value
+                                }
+                            }
                         }
                     }
                 }
@@ -92,6 +99,25 @@ export namespace Fauna {
                             value
                         }
                     }
+                    products {
+                        data {
+                            _id
+                            uuid
+                            title
+                            body
+                            description
+                            interval
+                            price
+                            status
+                            hashtags {
+                                data {
+                                    _id
+                                    label
+                                    value
+                                }
+                            }
+                        }
+                    }
                 }
             }
         `
@@ -123,6 +149,226 @@ export namespace Fauna {
                     github
                     instagram
                     categories {
+                        data {
+                            _id
+                            label
+                            value
+                        }
+                    }
+                    products {
+                        data {
+                            _id
+                            uuid
+                            title
+                            body
+                            description
+                            interval
+                            price
+                            status
+                            hashtags {
+                                data {
+                                    _id
+                                    label
+                                    value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        `
+        export const allProducts = `
+            query {
+                allProducts {
+                    data {
+                        _id
+                        uuid
+                        title
+                        description
+                        body
+                        status
+                        price
+                        interval
+                        hashtags {
+                            data {
+                                _id
+                                label
+                                value
+                            }
+                        }
+                        author {
+                            _id
+                            username
+                            name
+                            body
+                            profileImage
+                            website
+                            twitter
+                            facebook
+                            github
+                            instagram
+                            categories {
+                                data {
+                                    _id
+                                    label
+                                    value
+                                }
+                            }
+                            products {
+                                data {
+                                    _id
+                                    uuid
+                                    title
+                                    body
+                                    description
+                                    interval
+                                    price
+                                    status
+                                    hashtags {
+                                        data {
+                                            _id
+                                            label
+                                            value
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        `
+        export const getProductByUuid = `
+            query ($uuid: ID!) {
+                getProductByUuid(uuid: $uuid) {
+                    _id
+                    uuid
+                    stripeID
+                    title
+                    description
+                    body
+                    status
+                    price
+                    interval
+                    hashtags {
+                        data {
+                            _id
+                            label
+                            value
+                        }
+                    }
+                    author {
+                        _id
+                        username
+                        name
+                        body
+                        profileImage
+                        website
+                        twitter
+                        facebook
+                        github
+                        instagram
+                        categories {
+                            data {
+                                _id
+                                label
+                                value
+                            }
+                        }
+                    }
+                }
+            }
+        `
+        export const createProduct = `
+            mutation (
+                $uuid: ID!,
+                $netlifyID: ID!,
+                $title: String!,
+                $description: String!,
+                $body: String!,
+                $status: String!,
+                $price: Int!,
+                $interval: String!,
+                $hashtags: [ID]!,
+                $author: ID!
+            ) {
+                createProduct(data: {
+                    uuid: $uuid,
+                    netlifyID: $netlifyID,
+                    title: $title,
+                    description: $description,
+                    body: $body,
+                    status: $status,
+                    price: $price,
+                    interval: $interval,
+                    hashtags: {
+                        connect: $hashtags
+                    },
+                    author: {
+                        connect: $author
+                    }
+                 }) {
+                    _id
+                    uuid
+                    title
+                    description
+                    body
+                    status
+                    price
+                    interval
+                    hashtags {
+                        data {
+                            _id
+                            label
+                            value
+                        }
+                    }
+                }
+            }
+        `
+        export const updateProduct = `
+            mutation (
+                $id: ID!,
+                $uuid: ID!,
+                $netlifyID: ID!,
+                $stripeID: ID,
+                $title: String!,
+                $description: String!,
+                $body: String!,
+                $status: String!,
+                $price: Int!,
+                $interval: String!,
+                $connect: [ID]!,
+                $disconnect: [ID]!,
+                $author: ID!
+            ) {
+                updateProduct(id: $id, data: {
+                    uuid: $uuid,
+                    netlifyID: $netlifyID,
+                    stripeID: $stripeID,
+                    title: $title,
+                    description: $description,
+                    body: $body,
+                    status: $status,
+                    price: $price,
+                    interval: $interval,
+                    hashtags: {
+                        connect: $connect
+                        disconnect: $disconnect
+                    },
+                    author: {
+                        connect: $author
+                    }
+                 }) {
+                    _id
+                    uuid
+                    title
+                    description
+                    body
+                    status
+                    price
+                    interval
+                    hashtags {
                         data {
                             _id
                             label

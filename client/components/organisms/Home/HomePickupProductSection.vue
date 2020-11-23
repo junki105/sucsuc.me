@@ -16,29 +16,29 @@
       </p>
       <div class="flex flex-wrap mt-10">
         <div
-          v-for="(plan, index) in plans"
+          v-for="(product, index) in products"
           :key="index"
           class="flex w-full lg:w-1/2 mb-4"
           :class="{ 'pr-2': index % 2 == 0, 'pl-2': index % 2 == 1 }"
         >
-          <plan-card :plan="plan">
+          <product-card :product="product">
             <template v-slot:header>
               <nuxt-link
-                :to="`/user/${plan.author.slug}`"
+                :to="`/user/${product.author._id}`"
                 class="flex items-center mb-2"
               >
                 <profile-icon
-                  :src="plan.author.profilePicture"
-                  :alt="plan.author.title"
+                  :src="product.author.profileImage"
+                  :alt="product.author.name"
                   class="h-6 w-6"
                 />
                 <p
                   class="ml-2 font-semibold text-xs text-gray-800"
-                  v-text="plan.author.title"
+                  v-text="product.author.name"
                 />
               </nuxt-link>
             </template>
-          </plan-card>
+          </product-card>
         </div>
       </div>
       <div class="w-full max-w-lg mx-auto flex justify-center my-6">
@@ -57,20 +57,20 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
-import PlanCard from '@/components/molecules/PlanCard.vue'
-import { Plan } from '../../../../core/entities/Plan'
+import ProductCard from '@/components/molecules/ProductCard.vue'
+import { Product } from '../../../../core/entities/Product'
 
 export default Vue.extend({
   components: {
     ProfileIcon,
-    PlanCard,
+    ProductCard,
   },
   props: {
-    plans: {
+    products: {
       type: Array,
       required: true,
       default: () => [],
-    } as PropOptions<Plan[]>,
+    } as PropOptions<Product[]>,
   },
 })
 </script>

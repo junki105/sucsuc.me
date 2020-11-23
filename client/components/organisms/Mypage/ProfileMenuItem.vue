@@ -38,6 +38,7 @@ interface DataType {}
 
 interface MethodType {
   openProfileModal(): void
+  submitPostProfile(event: Event, profile: Profile): void
 }
 
 interface ComputedType {

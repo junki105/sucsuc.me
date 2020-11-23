@@ -4,6 +4,13 @@ type Category {
   profiles: [Profile!] @relation
 }
 
+type Hashtag {
+  label: String
+  value: String
+  icon: String
+  products: [Product!] @relation
+}
+
 type Profile {
   netlifyID: ID!
   username: String!
@@ -16,6 +23,7 @@ type Profile {
   facebook: String
   github: String
   instagram: String
+  products: [Product!] @relation
 }
 
 type User {
@@ -28,31 +36,30 @@ type Account {
   stripeID: ID!
 }
 
-type Plan {
-  netlifyID: ID!
-  username: String
-  name: String
-  profileImage: String
-  website: String
-  twitter: String
-  facebook: String
-  github: String
-  instagram: String
-}
-
 type Product {
-  stripeID: ID!
   uuid: ID!
+  netlifyID: ID!
+  stripeID: ID
+  title: String!
+  body: String!
+  description: String!
+  interval: String!
+  price: Int!
+  status: String!
+  author: Profile! @relation
+  hashtags: [Hashtag!] @relation
 }
 
 type Query {
   allCategories: [Category!]
+  allHashtags: [Hashtag!]
   getProfileByNetlifyID(netlifyID: ID!): Profile
 
   getUserByNetlifyID(netlifyID: ID!): User!
   getUserByStripeID(stripeID: ID!): User!
   getAccountByNetlifyID(netlifyID: ID!): Account!
   getAccountByStripeID(stripeID: ID!): Account!
+  allProducts: [Product!]
   getProductByUuid(uuid: ID!): Product!
   getProductByStripeID(stripeID: ID!): Product!
 }

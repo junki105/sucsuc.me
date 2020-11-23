@@ -1,9 +1,9 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
 import { StripeConst } from '../utils/stripe-helpers'
-import faunaFetch from '../utils/fauna'
-import { Author } from '../../core/entities/Author'
-import { Plan } from '../../core/entities/Plan'
+import faunaFetch, { Fauna } from '../utils/fauna'
+import { Product, convertProduct } from '../../core/entities/Product'
+import { Profile, convertProfile } from '../../core/entities/Profile'
 
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -56,60 +56,43 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   }
   
   const req = JSON.parse(event.body || '')
-  const uuid = req.uuid
-  const plan = require(`../../client/content/plan/${uuid}.json`) as Plan;
-  const author = require(`../../client/content/author/${plan.authorId}.json`) as Author;
+  const uuid: String = req.uuid
 
-  const productData = await faunaFetch({
-    query: `
-      query ($uuid: ID!) {
-        getProductByUuid(uuid: $uuid) {
-          stripeID
-        }
-      }
-    `,
-    variables: {
-      uuid: uuid,
-    },
+  const productResult = await faunaFetch({
+    query: Fauna.Query.getProductByUuid,
+    variables: { uuid: uuid },
   });
-
-
+  if (!productResult.data) {
+    return { statusCode: 404, body: 'Product Not Found' }
+  }
+  const product: Product = convertProduct(productResult.data.getProductByUuid)
+  const author: Profile = convertProfile(product.author)
   const metadata = {
-    plan_uuid: uuid,
-    author_id: (plan.authorId as string)
+    product_uuid: (product.uuid as string),
+    author_id: author._id ? author._id.toString() : ""
   }
 
-  const productParams = productData.data
-    ? { product: productData.data.getProductByUuid.stripeID }
-    : { product_data: { name: `${author.title} - ${plan.title}` } }
+  const productParams = product.stripeID
+    ? { product: (product.stripeID as string) }
+    : { product_data: { name: (product.title as string) } }
 
   const price = await stripe.prices.create({
     ...productParams,
-    unit_amount: (plan.price as number),
+    unit_amount: (product.price as number),
     currency: StripeConst.Currency.JPY,
-    recurring: plan.interval === StripeConst.Interval.MONTHLY ? { interval: 'month' } : undefined,
+    recurring: product.interval === StripeConst.Interval.MONTHLY ? { interval: 'month' } : undefined,
     metadata,
   });
 
-  if (!productData.data && price.product) {
+  if (!product.stripeID && price.product) {
     await faunaFetch({
-      query: `
-        mutation ($uuid: ID!, $stripeID: ID!) {
-          createProduct(data: { uuid: $uuid, stripeID: $stripeID }) {
-            uuid
-            stripeID
-          }
-        }
-      `,
-      variables: {
-        uuid: uuid,
-        stripeID: (price.product as string),
-      },
-    });
+      query: Fauna.Query.updateProduct,
+      variables: { id: product._id, netlifyID: user.sub, stripeID: (price.product as string), ...product, connect: [], disconnect: [], author: author._id }
+    })
   }
 
   const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
-    mode: plan.interval === StripeConst.Interval.MONTHLY ? "subscription" : "payment",
+    mode: product.interval === StripeConst.Interval.MONTHLY ? "subscription" : "payment",
     line_items: [
       { price: price.id, quantity: 1 },
     ],

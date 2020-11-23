@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div v-if="plans.length > 0" class="">
+      <div v-if="products.length > 0" class="">
         <h3 class="flex items-center font-bold px-2 mb-4 text-xl">
           <span
             class="inline-flex items-center justify-center bg-gray-100 text-gray-800 border border-gray-500 rounded-full w-10 h-10 mr-2"
@@ -53,25 +53,25 @@
             </p>
           </div>
         </h3>
-        <div v-for="(plan, index) in plans" :key="index" class="mb-2">
-          <plan-card :plan="plan" class="border-b">
+        <div v-for="(product, index) in products" :key="index" class="mb-2">
+          <product-card :product="product" class="border-b">
             <template v-slot:header>
               <nuxt-link
-                :to="`/user/${plan.author.slug}`"
+                :to="`/user/${product.author._id}`"
                 class="flex items-center mb-2"
               >
                 <profile-icon
-                  :src="plan.author.profilePicture"
-                  :alt="plan.author.title"
+                  :src="product.author.profileImage"
+                  :alt="product.author.name"
                   class="h-6 w-6"
                 />
                 <p
                   class="ml-2 font-semibold text-xs text-gray-800"
-                  v-text="plan.author.title"
+                  v-text="product.author.name"
                 />
               </nuxt-link>
             </template>
-          </plan-card>
+          </product-card>
         </div>
       </div>
     </div>
@@ -83,10 +83,10 @@ import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
 import AuthorCard from '@/components/molecules/AuthorCard.vue'
-import PlanCard from '@/components/molecules/PlanCard.vue'
+import ProductCard from '@/components/molecules/ProductCard.vue'
 import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
-import { Author } from '../../core/entities/Author'
-import { Plan } from '../../core/entities/Plan'
+import { Profile } from '../../core/entities/Profile'
+import { Product } from '../../core/entities/Product'
 
 const title = 'スクスク（SUCSUC）、プラン検索'
 const description =
@@ -94,8 +94,8 @@ const description =
 
 interface DataType {
   q: string
-  authors: Author[]
-  plans: Plan[]
+  authors: Profile[]
+  products: Product[]
 }
 
 interface MethodType {
@@ -108,7 +108,7 @@ interface PropType {}
 export default Vue.extend({
   components: {
     AuthorCard,
-    PlanCard,
+    ProductCard,
     ProfileIcon,
   },
   asyncData(context: Context): DataType {
@@ -116,24 +116,24 @@ export default Vue.extend({
     return {
       q: '',
       authors: [],
-      plans: [],
+      products: [],
     }
   },
   data(): DataType {
     return {
       q: '',
       authors: [],
-      plans: [],
+      products: [],
     }
   },
   methods: {
     search(): void {
       this.$store
         .dispatch('author/search', this.q)
-        .then((res: Author[]) => (this.authors = res))
+        .then((res: Profile[]) => (this.authors = res))
       this.$store
-        .dispatch('plan/search', this.q)
-        .then((res: Plan[]) => (this.plans = res))
+        .dispatch('product/search', this.q)
+        .then((res: Product[]) => (this.products = res))
     },
   },
   head() {

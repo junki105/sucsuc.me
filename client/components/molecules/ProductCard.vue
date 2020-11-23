@@ -4,9 +4,9 @@
   >
     <slot name="header" />
     <div class="pl-8">
-      <nuxt-link :to="`/plan/${plan.slug}`">
-        <p class="text-lg font-bold hover:text-brand" v-text="plan.title" />
-        <p class="text-xs text-gray-700 mb-1" v-text="plan.description" />
+      <nuxt-link :to="`/plan/${product.uuid}`">
+        <p class="text-lg font-bold hover:text-brand" v-text="product.title" />
+        <p class="text-xs text-gray-700 mb-1" v-text="product.description" />
       </nuxt-link>
       <div class="mb-2">
         <hashtag
@@ -37,7 +37,7 @@
           >
           <p class="font-semibold text-xl text-gray-800">
             <span class="mr-1">¥</span>
-            <span v-text="plan.price.toLocaleString()" />
+            <span v-text="product.price.toLocaleString()" />
             <span v-show="isMonthly" class="text-sm">/ 月</span>
           </p>
         </div>
@@ -50,26 +50,28 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import Hashtag from '@/components/atoms/Hashtag.vue'
-import { Author } from '../../../core/entities/Author'
+import { Profile } from '../../../core/entities/Profile'
 import { Hashtag as HashtagData } from '../../../core/entities/Hashtag'
-import { Plan } from '../../../core/entities/Plan'
+import { Product } from '../../../core/entities/Product'
 
 export default Vue.extend({
   components: {
     Hashtag,
   },
   props: {
-    plan: { type: Object, required: true, default: null } as PropOptions<Plan>,
+    product: { type: Object, required: true, default: null } as PropOptions<
+      Product
+    >,
   },
   computed: {
-    author(): Author {
-      return this.plan.author
+    author(): Profile {
+      return this.product.author as Profile
     },
     hashtags(): HashtagData[] {
-      return this.plan.hashtags
+      return this.product.hashtags as HashtagData[]
     },
     isMonthly(): Boolean {
-      return this.plan.interval === 'monthly'
+      return this.product.interval === 'monthly'
     },
   },
 })

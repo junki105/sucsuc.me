@@ -4,7 +4,7 @@
   </span>
 </template>
 
-<style scoped>
+<style lang="postcss" scoped>
 @font-face {
   font-family: 'ConcertOne';
   src: url('../../assets/ttf/ConcertOne-Regular.ttf');

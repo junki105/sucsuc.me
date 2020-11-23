@@ -1,17 +1,17 @@
 <template>
   <nuxt-link
-    :to="`/user/${author.slug}`"
+    :to="`/user/${author._id}`"
     class="border-b p-2 flex items-center lg:border lg:rounded lg:shadow-xl"
   >
     <profile-icon
-      :src="author.profilePicture"
-      :alt="author.title"
+      :src="author.profileImage"
+      :alt="author.name"
       class="h-10 w-10"
     />
     <div>
       <p
         class="ml-2 font-semibold text-xs text-gray-800"
-        v-text="author.title"
+        v-text="author.name"
       />
       <p
         class="ml-2 font-semibold text-xs text-gray-800"
@@ -24,7 +24,7 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
-import { Author } from '../../../core/entities/Author'
+import { Profile } from '../../../core/entities/Profile'
 
 export default Vue.extend({
   components: {
@@ -32,7 +32,7 @@ export default Vue.extend({
   },
   props: {
     author: { type: Object, required: true, default: null } as PropOptions<
-      Author
+      Profile
     >,
   },
 })

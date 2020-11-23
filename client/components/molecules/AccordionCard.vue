@@ -1,14 +1,17 @@
 <template>
   <div>
     <div
-      class="flex items-center font-semibold bg-gray-200 rounded-md py-2 px-4 cursor-pointer text-gray-900"
+      class="flex items-center justify-between font-semibold bg-gray-200 rounded-md py-2 px-4 cursor-pointer text-gray-900"
       @click.prevent="open = !open"
     >
-      <font-awesome-icon
-        :icon="['fas', open ? 'caret-down' : 'caret-right']"
-        class="mr-2"
-      />
-      {{ title }}
+      <div>
+        <font-awesome-icon
+          :icon="['fas', open ? 'caret-down' : 'caret-right']"
+          class="mr-2"
+        />
+        {{ title }}
+      </div>
+      <slot name="header-right"></slot>
     </div>
     <div v-show="open" class="p-4">
       <slot />

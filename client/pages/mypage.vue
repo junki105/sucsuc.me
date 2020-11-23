@@ -7,7 +7,8 @@
             <profile-menu-item />
             <charge-menu-item />
             <subscription-menu-item />
-            <cms-menu-item v-if="isMentor" />
+            <product-menu-item v-if="isMentor" />
+            <cms-menu-item v-if="isAdmin" />
             <connect-menu-item v-if="isMentor" />
             <bank-menu-item v-if="isMentor" />
             <contact-menu-item />
@@ -30,6 +31,7 @@ import CmsMenuItem from '@/components/organisms/Mypage/CmsMenuItem.vue'
 import ConnectMenuItem from '@/components/organisms/Mypage/ConnectMenuItem.vue'
 import ContactMenuItem from '@/components/organisms/Mypage/ContactMenuItem.vue'
 import ProfileMenuItem from '@/components/organisms/Mypage/ProfileMenuItem.vue'
+import ProductMenuItem from '@/components/organisms/Mypage/ProductMenuItem.vue'
 import LogoutMenuItem from '@/components/organisms/Mypage/LogoutMenuItem.vue'
 import SubscriptionMenuItem from '@/components/organisms/Mypage/SubscriptionMenuItem.vue'
 
@@ -43,6 +45,7 @@ interface MethodType {}
 interface ComputedType {
   user(): User
   isMentor(): boolean
+  isAdmin(): boolean
 }
 interface PropType {}
 
@@ -54,6 +57,7 @@ export default Vue.extend({
     ConnectMenuItem,
     ContactMenuItem,
     ProfileMenuItem,
+    ProductMenuItem,
     LogoutMenuItem,
     SubscriptionMenuItem,
   },
@@ -74,6 +78,9 @@ export default Vue.extend({
     },
     isMentor(): boolean {
       return this.$store.getters['auth/isMentor']
+    },
+    isAdmin(): boolean {
+      return this.$store.getters['auth/isAdmin']
     },
   },
   mounted() {

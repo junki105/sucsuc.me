@@ -28,7 +28,9 @@
             v-show="title"
             class="flex justify-center items-center border-b-2 pb-3"
           >
-            <p class="text-2xl font-bold">{{ title }}</p>
+            <slot name="header">
+              <p class="text-2xl font-bold">{{ title }}</p>
+            </slot>
           </div>
 
           <div class="flex flex-grow overflow-y-auto">
