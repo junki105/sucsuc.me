@@ -13,7 +13,8 @@
           class="bg-orange-500 text-white text-xs rounded-full px-4 py-1 hover:opacity-75"
           @click.stop="handleCopy(item)"
         >
-          複製
+          <font-awesome-icon :icon="[`fas`, `copy`]" />
+          <span class="hidden md:inline-block">Copy</span>
         </a>
       </template>
       <product-form

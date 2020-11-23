@@ -4,7 +4,7 @@
       class="flex items-center justify-between font-semibold bg-gray-200 rounded-md py-2 px-4 cursor-pointer text-gray-900"
       @click.prevent="open = !open"
     >
-      <div>
+      <div class="flex items-center text-sm md:text-base">
         <font-awesome-icon
           :icon="['fas', open ? 'caret-down' : 'caret-right']"
           class="mr-2"

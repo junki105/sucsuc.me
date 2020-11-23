@@ -42,12 +42,20 @@
           </div>
         </template>
 
-        <product-list
-          v-if="products && products.length > 0"
-          :products="products"
-          :handle-submit="submitPostProduct"
-          :handle-copy="copyProduct"
-        />
+        <div
+            v-if="products && products.length > 0"
+        >
+          <alert-box
+            type="warning"
+            message="プランを登録＆更新から反映までに数分時間がかかります。"
+            class="mt-6"
+          />
+          <product-list
+            :products="products"
+            :handle-submit="submitPostProduct"
+            :handle-copy="copyProduct"
+          />
+        </div>
         <alert-box
           v-else
           type="info"
