@@ -22,6 +22,16 @@ const main = async () => {
     fs.writeFile('./client/content/hashtag.json', JSON.stringify({ hashtags }, null, '    '), () => {});
 
 
+    fs.mkdir('./client/content/author', { recursive: true }, (err) => {
+        if (err) throw err;
+    });
+    fs.mkdir('./client/content/blog', { recursive: true }, (err) => {
+        if (err) throw err;
+    });
+    fs.mkdir('./client/content/product', { recursive: true }, (err) => {
+        if (err) throw err;
+    });
+
     const productResult = await faunaFetch({
         query: Fauna.Query.allProducts,
         variables: {},

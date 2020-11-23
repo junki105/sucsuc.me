@@ -127,7 +127,9 @@ export default Vue.extend({
   asyncData(context: Context): DataType {
     let data = null
     if (context.payload) {
-      data = context.payload as { author: Profile; products: Product[] }
+      const { author } = context.payload as { author: Profile }
+      const products = author.products
+      data = { author, products }
     } else {
       const slug = context.params.slug
       const authors = context.store.getters['author/authors'] || []
