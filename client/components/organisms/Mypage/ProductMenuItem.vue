@@ -115,6 +115,7 @@ export default Vue.extend({
     copyProduct(product: Product): void {
       const copy = { ...product }
       copy._id = undefined
+      copy.uuid = undefined
       copy.copy = true
       this.products.unshift(copy)
     },

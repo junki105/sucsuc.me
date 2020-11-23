@@ -13,16 +13,22 @@ const generateRoute = () => {
   const fs = require('fs')
   // const categories = require(`./client/content/category.json`).categories
   const hashtags = require(`./client/content/hashtag.json`).hashtags
-  const authors = fs.readdirSync('./client/content/author').map((file) => require(`./client/content/author/${file}`))
-  const products = fs.readdirSync('./client/content/product').map((file) => require(`./client/content/product/${file}`))
+  const authors = fs
+    .readdirSync('./client/content/author')
+    .map((file) => require(`./client/content/author/${file}`))
+  const products = fs
+    .readdirSync('./client/content/product')
+    .map((file) => require(`./client/content/product/${file}`))
 
   return [
-    ...authors.filter(author => author._id).map((author) => {
-      return {
-        route: `/user/${author._id}`,
-        payload: { author },
-      }
-    }),
+    ...authors
+      .filter((author) => author._id)
+      .map((author) => {
+        return {
+          route: `/user/${author._id}`,
+          payload: { author },
+        }
+      }),
     ...products.map((product) => {
       return { route: `/plan/${product.uuid}`, payload: { product } }
     }),
