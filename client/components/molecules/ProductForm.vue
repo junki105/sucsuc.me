@@ -85,7 +85,7 @@
           />
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <input-label for-input="price" :required="false"> 金額 </input-label>
+          <input-label for-input="price"> 金額 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
             :rules="{ required: true, regex: /^[0-9]*$/ }"
@@ -105,7 +105,7 @@
           </ValidationProvider>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <input-label for-input="interval" :required="false">
+          <input-label for-input="interval">
             課金サイクル
           </input-label>
           <select
@@ -121,7 +121,7 @@
           </select>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <input-label for-input="status" :required="false">
+          <input-label for-input="status">
             ステータス
           </input-label>
           <select
