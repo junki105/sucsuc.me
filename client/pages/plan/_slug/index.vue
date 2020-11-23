@@ -13,7 +13,7 @@
         <div class="w-full md:w-5/12 py-4">
           <div class="bg-gray-100 px-4 py-2 mb-2">
             <nuxt-link
-              :to="`/user/${product.author.uuid}`"
+              :to="`/user/${product.author._id}`"
               class="flex items-center"
             >
               <profile-icon
@@ -184,7 +184,7 @@
           </p>
           <div class="bg-gray-100 border flex flex-col p-4">
             <nuxt-link
-              :to="`/user/${product.author.slug}`"
+              :to="`/user/${product.author._id}`"
               class="flex items-center mb-2"
             >
               <profile-icon

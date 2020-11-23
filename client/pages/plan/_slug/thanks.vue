@@ -71,7 +71,7 @@ export default Vue.extend({
         } as Breadcrumb,
         {
           to: `/user/${data.product.author._id}`,
-          name: data.product.author.title,
+          name: data.product.author.name,
           color: 'text-gray-100',
         } as Breadcrumb,
         {
