@@ -48,7 +48,6 @@ const generateRoute = () => {
     }),
   ]
 }
-const routes = process.env.NODE_ENV === 'production' ? generateRoute() : []
 
 export default {
   env: {
@@ -165,7 +164,9 @@ export default {
 
   generate: {
     subFolders: false,
-    routes,
+    routes() {
+      return generateRoute()
+    },
   },
   render: {
     fallback: false,
@@ -177,7 +178,9 @@ export default {
     sitemaps: [
       {
         path: '/sitemap.xml',
-        routes: routes.map((r) => r.route).filter((r) => !r.match(/.*thanks$/)),
+        routes() {
+          return generateRoute().map((r) => r.route).filter((r) => !r.match(/.*thanks$/))
+        },
         exclude: ['/mypage', '/admin', '/contact', '/contact/thanks'],
         gzip: true,
       },
