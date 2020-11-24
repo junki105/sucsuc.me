@@ -30,9 +30,9 @@
       "@types/webpack",
       "@types/webpack-env",
       "@nuxt/types",
+      "@nuxtjs/toast",
       "@nuxtjs/axios",
       "@nuxtjs/dayjs",
-      "@nuxtjs/toast"
     ]
   },
   "exclude": [

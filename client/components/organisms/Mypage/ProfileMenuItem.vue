@@ -70,7 +70,7 @@ export default Vue.extend({
       this.$nuxt.$loading.start()
       try {
         await this.$store.dispatch('auth/updateProfile', profile)
-
+        ;(this.$refs as any).modal.hide()
         // @ts-ignore : 要検討
         this.$toast.success('プロフィールを編集しました')
       } catch (err) {
