@@ -70,6 +70,9 @@ export default Vue.extend({
       this.$nuxt.$loading.start()
       try {
         await this.$store.dispatch('auth/updateProfile', profile)
+
+        // @ts-ignore : 要検討
+        this.$toast.success('プロフィールを編集しました')
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)

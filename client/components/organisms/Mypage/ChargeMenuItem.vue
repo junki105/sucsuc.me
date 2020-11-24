@@ -85,7 +85,7 @@ export default Vue.extend({
           ? { startingAfter: this.charges[this.charges.length - 1].id }
           : {}
         const chargeData: ChargeList = await this.$axios.$post(
-          '/.netlify/functions/fetch_charges',
+          '/.netlify/functions/charge-list',
           params
         )
         this.hasMoreCharges = chargeData.hasMore

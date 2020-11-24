@@ -64,7 +64,7 @@ export default Vue.extend({
       try {
         const token = await this.$store.dispatch('auth/refresh')
         this.$axios.setHeader('Authorization', `Bearer ${token}`)
-        this.bank = await this.$axios.$post('/.netlify/functions/retrieve_bank')
+        this.bank = await this.$axios.$post('/.netlify/functions/bank-retrieve')
         this.bank
           ? (this.$refs as any).retrieveBank.show()
           : (this.$refs as any).createBank.show()
@@ -81,16 +81,18 @@ export default Vue.extend({
       const token = await this.$store.dispatch('auth/refresh')
       this.$axios.setHeader('Authorization', `Bearer ${token}`)
       try {
-        await this.$axios.$post('/.netlify/functions/create_bank', {
+        await this.$axios.$post('/.netlify/functions/bank-create', {
           account_holder_name: form.accountHolderName,
           account_number: form.accountNumber,
           routing_number: `${form.bankCode}${form.branchCode}`,
         })
+        ;(this.$refs as any).createBank.hide()
+        // @ts-ignore : 要検討
+        this.$toast.success('銀行情報を登録しました')
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
       } finally {
-        ;(this.$refs as any).createBank.hide()
         this.$nuxt.$loading.finish()
       }
     },

@@ -8,6 +8,15 @@
     >
       <template v-slot:header-right>
         <a
+          v-show="(hasNew || hasCopy) && !item._id"
+          href="#"
+          class="bg-red-500 text-white text-xs rounded-full px-4 py-1 hover:opacity-75"
+          @click.stop="handleDelete(index, item)"
+        >
+          <font-awesome-icon :icon="[`fas`, `trash`]" />
+          <span class="hidden md:inline-block">Delete</span>
+        </a>
+        <a
           v-show="!hasNew && !hasCopy && !!item._id"
           href="#"
           class="bg-orange-500 text-white text-xs rounded-full px-4 py-1 hover:opacity-75"
@@ -63,6 +72,11 @@ export default Vue.extend({
       default: () => {},
     } as PropOptions<Function>,
     handleCopy: {
+      type: Function,
+      required: false,
+      default: () => {},
+    } as PropOptions<Function>,
+    handleDelete: {
       type: Function,
       required: false,
       default: () => {},

@@ -358,7 +358,7 @@ export default Vue.extend({
           const token = await this.$store.dispatch('auth/refresh')
           this.$axios.setHeader('Authorization', `Bearer ${token}`)
           const session = await this.$axios.$post(
-            '/.netlify/functions/checkout_sessions',
+            '/.netlify/functions/checkout-sessions',
             {
               uuid: this.product.uuid,
               success_url: `${this.baseUrl}/plan/${this.product.uuid}/thanks`,

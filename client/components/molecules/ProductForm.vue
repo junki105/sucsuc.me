@@ -105,9 +105,7 @@
           </ValidationProvider>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <input-label for-input="interval">
-            課金サイクル
-          </input-label>
+          <input-label for-input="interval"> 課金サイクル </input-label>
           <select
             v-model="form.interval"
             class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"
@@ -121,9 +119,7 @@
           </select>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
-          <input-label for-input="status">
-            ステータス
-          </input-label>
+          <input-label for-input="status"> ステータス </input-label>
           <select
             v-model="form.status"
             class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"

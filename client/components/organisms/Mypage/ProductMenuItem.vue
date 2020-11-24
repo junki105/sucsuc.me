@@ -42,9 +42,7 @@
           </div>
         </template>
 
-        <div
-            v-if="products && products.length > 0"
-        >
+        <div v-if="products && products.length > 0">
           <alert-box
             type="warning"
             message="プランを登録＆更新から反映までに数分時間がかかります。"
@@ -54,6 +52,7 @@
             :products="products"
             :handle-submit="submitPostProduct"
             :handle-copy="copyProduct"
+            :handle-delete="deleteProduct"
           />
         </div>
         <alert-box
@@ -84,6 +83,7 @@ interface MethodType {
   openProductModal(): void
   addProduct(): void
   copyProduct(product: Product): void
+  deleteProduct(index: number): void
   submitPostProduct(event: Event, product: Product): void
 }
 
@@ -127,11 +127,17 @@ export default Vue.extend({
       copy.copy = true
       this.products.unshift(copy)
     },
+    deleteProduct(index: number): void {
+      this.products.splice(index, 1)
+    },
     async submitPostProduct(event: Event, product: Product): Promise<void> {
       event.preventDefault()
       this.$nuxt.$loading.start()
       try {
         await this.$store.dispatch('auth/saveProduct', product)
+        ;(this.$refs as any).modal.hide()
+        // @ts-ignore : 要検討
+        this.$toast.success('プランを保存しました。')
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)

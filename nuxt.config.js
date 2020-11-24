@@ -140,6 +140,7 @@ export default {
     '@nuxtjs/markdownit',
     '@nuxtjs/sitemap',
     '@nuxtjs/dayjs',
+    '@nuxtjs/toast',
     'portal-vue/nuxt',
     ...modules,
   ],
@@ -177,7 +178,7 @@ export default {
       {
         path: '/sitemap.xml',
         routes: routes.map((r) => r.route).filter((r) => !r.match(/.*thanks$/)),
-        exclude: ['/mypage', '/admin', '/contact/thanks'],
+        exclude: ['/mypage', '/admin', '/contact', '/contact/thanks'],
         gzip: true,
       },
     ],
@@ -185,6 +186,11 @@ export default {
   dayjs: {
     locales: ['ja', 'en'],
     defaultLocale: 'ja',
+  },
+  toast: {
+    position: 'top-center',
+    duration: 3000,
+    register: []
   },
   ...options,
 }
