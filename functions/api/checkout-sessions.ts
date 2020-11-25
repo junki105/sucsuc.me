@@ -1,7 +1,7 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
 import { StripeConst } from '../utils/stripe-helpers'
-import faunaFetch, { Fauna } from '../utils/fauna'
+import faunaFetch, { Fauna } from '../../core/utils/fauna'
 import { Product, convertProduct } from '../../core/entities/Product'
 import { Profile, convertProfile } from '../../core/entities/Profile'
 
@@ -21,36 +21,18 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   if (!clientContext || !clientContext.user) {
     return { statusCode: 401, body: 'Forbidden' }
   }
-  const user: User = clientContext.user;
+  const user: User = clientContext.user
   const customerData = await faunaFetch({
-    query: `
-      query ($netlifyID: ID!) {
-        getUserByNetlifyID(netlifyID: $netlifyID) {
-          stripeID
-        }
-      }
-    `,
-    variables: {
-      netlifyID: user.sub,
-    },
-  });
+    query: Fauna.Query.getUserByNetlifyID,
+    variables: { netlifyID: user.sub },
+  })
   if (customerData.data) {
     stripeID = customerData.data.getUserByNetlifyID.stripeID
   } else {
     const customer = await stripe.customers.create({ email: user.email } as Stripe.CustomerCreateParams);
     await faunaFetch({
-      query: `
-        mutation ($netlifyID: ID!, $stripeID: ID!) {
-          createUser(data: { netlifyID: $netlifyID, stripeID: $stripeID }) {
-            netlifyID
-            stripeID
-          }
-        }
-      `,
-      variables: {
-        netlifyID: user.sub,
-        stripeID: customer.id,
-      },
+      query: Fauna.Mutation.createUser,
+      variables: { netlifyID: user.sub, stripeID: customer.id }
     });
     stripeID = customer.id
   }
@@ -86,7 +68,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
   if (!product.stripeID && price.product) {
     await faunaFetch({
-      query: Fauna.Query.updateProduct,
+      query: Fauna.Mutation.updateProduct,
       variables: { id: product._id, netlifyID: user.sub, stripeID: (price.product as string), ...product, connect: [], disconnect: [], author: author._id }
     })
   }

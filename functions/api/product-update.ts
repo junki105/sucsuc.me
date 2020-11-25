@@ -1,7 +1,7 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { v4 as uuidv4 } from 'uuid';
 import { Context, ClientContext, User } from '../utils/types'
-import faunaFetch, { Fauna } from '../utils/fauna'
+import faunaFetch, { Fauna } from '../../core/utils/fauna'
 import { Hashtag } from '../../core/entities/Hashtag'
 import { Product, convertProduct } from '../../core/entities/Product'
 import { Profile, convertProfile } from '../../core/entities/Profile'
@@ -53,14 +53,14 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     const connect = after.filter(i => before.indexOf(i) == -1)
     const disconnect = before.filter(i => after.indexOf(i) == -1)
     result = await faunaFetch({
-      query: Fauna.Query.updateProduct,
+      query: Fauna.Mutation.updateProduct,
       variables: { id: product._id, netlifyID: user.sub, ...product, connect, disconnect, author: profile._id }
     })
     savedProduct = result.data ? convertProduct(result.data.updateProduct) : null
   } else {
     product.hashtags = (product.hashtags as Hashtag[]).map((h: Hashtag) => h._id) as Number[]
     result = await faunaFetch({
-      query: Fauna.Query.createProduct,
+      query: Fauna.Mutation.createProduct,
       variables: { uuid: uuidv4(), netlifyID: user.sub, ...product, price: (product.price as number), author: profile._id }
     })
     savedProduct = result.data ? convertProduct(result.data.createProduct) : null

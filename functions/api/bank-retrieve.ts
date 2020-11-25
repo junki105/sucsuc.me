@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
-import faunaFetch from '../utils/fauna'
+import faunaFetch, { Fauna } from '../../core/utils/fauna'
 import { Bank } from '../../core/entities/Bank'
 
 import Stripe from 'stripe'
@@ -27,16 +27,8 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
   const user: User = clientContext.user;
   const result = await faunaFetch({
-    query: `
-      query ($netlifyID: ID!) {
-        getAccountByNetlifyID(netlifyID: $netlifyID) {
-          stripeID
-        }
-      }
-    `,
-    variables: {
-      netlifyID: user.sub,
-    },
+    query: Fauna.Query.getAccountByNetlifyID,
+    variables: { netlifyID: user.sub },
   });
 
   if (!result.data) {

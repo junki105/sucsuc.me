@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
-import faunaFetch from '../utils/fauna'
+import faunaFetch, { Fauna } from '../../core/utils/fauna'
 
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -39,20 +39,12 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
   const user: User = clientContext.user;
   const result = await faunaFetch({
-    query: `
-      query ($netlifyID: ID!) {
-        getAccountByNetlifyID(netlifyID: $netlifyID) {
-          stripeID
-        }
-      }
-    `,
-    variables: {
-      netlifyID: user.sub,
-    },
+    query: Fauna.Query.getAccountByNetlifyID,
+    variables: { netlifyID: user.sub },
   });
 
   if (result.data) {
-    const account = await stripe.accounts.createExternalAccount(
+    await stripe.accounts.createExternalAccount(
       result.data.getAccountByNetlifyID.stripeID,
       {
         external_account: token.id,
@@ -68,14 +60,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     } as Stripe.AccountCreateParams);
 
     await faunaFetch({
-      query: `
-        mutation ($netlifyID: ID!, $stripeID: ID!) {
-          createAccount(data: { netlifyID: $netlifyID, stripeID: $stripeID }) {
-            netlifyID
-            stripeID
-          }
-        }
-      `,
+      query: Fauna.Mutation.createAccount,
       variables: {
         netlifyID: user.sub,
         stripeID: account.id,

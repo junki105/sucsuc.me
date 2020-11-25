@@ -24,120 +24,23 @@ export namespace Fauna {
                 }
             }
         `
+        export const getUserByNetlifyID = `
+            query ($netlifyID: ID!) {
+                getUserByNetlifyID(netlifyID: $netlifyID) {
+                    stripeID
+                }
+            }
+        `
+        export const getAccountByNetlifyID = `
+            query ($netlifyID: ID!) {
+                getAccountByNetlifyID(netlifyID: $netlifyID) {
+                    stripeID
+                }
+            }
+        `
         export const getProfileByNetlifyID = `
             query ($netlifyID: ID!) {
                 getProfileByNetlifyID(netlifyID: $netlifyID) {
-                    _id
-                    username
-                    name
-                    body
-                    profileImage
-                    website
-                    twitter
-                    facebook
-                    github
-                    instagram
-                    categories {
-                        data {
-                            _id
-                            label
-                            value
-                        }
-                    }
-                    products {
-                        data {
-                            _id
-                            uuid
-                            title
-                            body
-                            description
-                            interval
-                            price
-                            status
-                            hashtags {
-                                data {
-                                    _id
-                                    label
-                                    value
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        `
-        export const createProfile = `
-            mutation ($netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $categories: [ID]!) {
-                createProfile(data: {
-                    netlifyID: $netlifyID,
-                    username: $username,
-                    name: $name,
-                    body: $body,
-                    website: $website,
-                    twitter: $twitter,
-                    facebook: $facebook,
-                    instagram: $instagram,
-                    profileImage: $profileImage,
-                    categories: {
-                        connect: $categories
-                    }
-                 }) {
-                    _id
-                    username
-                    name
-                    body
-                    profileImage
-                    website
-                    twitter
-                    facebook
-                    github
-                    instagram
-                    categories {
-                        data {
-                            _id
-                            label
-                            value
-                        }
-                    }
-                    products {
-                        data {
-                            _id
-                            uuid
-                            title
-                            body
-                            description
-                            interval
-                            price
-                            status
-                            hashtags {
-                                data {
-                                    _id
-                                    label
-                                    value
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        `
-        export const updateProfile = `
-            mutation ($id: ID!, $netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $connect: [ID]!, $disconnect: [ID]!) {
-                updateProfile(id: $id, data: {
-                    netlifyID: $netlifyID,
-                    username: $username,
-                    name: $name,
-                    body: $body,
-                    website: $website,
-                    twitter: $twitter,
-                    facebook: $facebook,
-                    instagram: $instagram,
-                    profileImage: $profileImage,
-                    categories: {
-                        connect: $connect
-                        disconnect: $disconnect
-                    }
-                 }) {
                     _id
                     username
                     name
@@ -273,6 +176,136 @@ export namespace Fauna {
                                 _id
                                 label
                                 value
+                            }
+                        }
+                    }
+                }
+            }
+        `
+    }
+    export namespace Mutation {
+        export const createUser = `
+            mutation ($netlifyID: ID!, $stripeID: ID!) {
+                createUser(data: { netlifyID: $netlifyID, stripeID: $stripeID }) {
+                    netlifyID
+                    stripeID
+                }
+            }
+        `
+        export const createAccount = `
+            mutation ($netlifyID: ID!, $stripeID: ID!) {
+                createAccount(data: { netlifyID: $netlifyID, stripeID: $stripeID }) {
+                    netlifyID
+                    stripeID
+                }
+            }
+
+        `
+        export const createProfile = `
+            mutation ($netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $categories: [ID]!) {
+                createProfile(data: {
+                    netlifyID: $netlifyID,
+                    username: $username,
+                    name: $name,
+                    body: $body,
+                    website: $website,
+                    twitter: $twitter,
+                    facebook: $facebook,
+                    instagram: $instagram,
+                    profileImage: $profileImage,
+                    categories: {
+                        connect: $categories
+                    }
+                 }) {
+                    _id
+                    username
+                    name
+                    body
+                    profileImage
+                    website
+                    twitter
+                    facebook
+                    github
+                    instagram
+                    categories {
+                        data {
+                            _id
+                            label
+                            value
+                        }
+                    }
+                    products {
+                        data {
+                            _id
+                            uuid
+                            title
+                            body
+                            description
+                            interval
+                            price
+                            status
+                            hashtags {
+                                data {
+                                    _id
+                                    label
+                                    value
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        `
+        export const updateProfile = `
+            mutation ($id: ID!, $netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $connect: [ID]!, $disconnect: [ID]!) {
+                updateProfile(id: $id, data: {
+                    netlifyID: $netlifyID,
+                    username: $username,
+                    name: $name,
+                    body: $body,
+                    website: $website,
+                    twitter: $twitter,
+                    facebook: $facebook,
+                    instagram: $instagram,
+                    profileImage: $profileImage,
+                    categories: {
+                        connect: $connect
+                        disconnect: $disconnect
+                    }
+                 }) {
+                    _id
+                    username
+                    name
+                    body
+                    profileImage
+                    website
+                    twitter
+                    facebook
+                    github
+                    instagram
+                    categories {
+                        data {
+                            _id
+                            label
+                            value
+                        }
+                    }
+                    products {
+                        data {
+                            _id
+                            uuid
+                            title
+                            body
+                            description
+                            interval
+                            price
+                            status
+                            hashtags {
+                                data {
+                                    _id
+                                    label
+                                    value
+                                }
                             }
                         }
                     }

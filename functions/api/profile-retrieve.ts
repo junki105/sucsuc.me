@@ -1,9 +1,9 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
-import faunaFetch, { Fauna } from '../utils/fauna'
-import { Category } from 'core/entities/Category'
+import faunaFetch, { Fauna } from '../../core/utils/fauna'
+import { Category } from '../../core/entities/Category'
 import { Profile, convertProfile } from '../../core/entities/Profile'
-import { Product } from 'core/entities/Product'
+import { Product } from '../../core/entities/Product'
 import Stripe from 'stripe'
 
 

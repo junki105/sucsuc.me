@@ -1,7 +1,7 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
 import { Charge } from '../../core/entities/Charge'
-import faunaFetch from '../utils/fauna'
+import faunaFetch, { Fauna } from '../../core/utils/fauna'
 
 import Stripe from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -20,18 +20,10 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   let customer: string | undefined = undefined;
   const clientContext: ClientContext | undefined = context.clientContext;
   if (clientContext && clientContext.user) {
-    const user: User = clientContext.user;
+    const user: User = clientContext.user
     const result = await faunaFetch({
-      query: `
-        query ($netlifyID: ID!) {
-          getUserByNetlifyID(netlifyID: $netlifyID) {
-            stripeID
-          }
-        }
-      `,
-      variables: {
-        netlifyID: user.sub,
-      },
+      query: Fauna.Query.getUserByNetlifyID,
+      variables: { netlifyID: user.sub },
     })
     customer = result.data ? result.data.getUserByNetlifyID.stripeID : null
   }

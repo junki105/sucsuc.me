@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
-import faunaFetch, { Fauna } from '../utils/fauna'
+import faunaFetch, { Fauna } from '../../core/utils/fauna'
 import { Profile, convertProfile } from '../../core/entities/Profile'
 import { Category } from '../../core/entities/Category'
 import Stripe from 'stripe'
@@ -38,7 +38,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
     const connect = after.filter(i => before.indexOf(i) == -1)
     const disconnect = before.filter(i => after.indexOf(i) == -1)
     const result = await faunaFetch({
-      query: Fauna.Query.updateProfile,
+      query: Fauna.Mutation.updateProfile,
       variables: { id: profile._id, netlifyID: user.sub, ...profile, connect, disconnect }
     })
 
@@ -46,7 +46,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   } else {
     profile.categories = (profile.categories as Category[]).map((c: Category) => c._id) as Number[]
     const result = await faunaFetch({
-      query: Fauna.Query.createProfile,
+      query: Fauna.Mutation.createProfile,
       variables: { netlifyID: user.sub, ...profile }
     })
     savedProfile = result.data ? convertProfile(result.data.createProfile) : null

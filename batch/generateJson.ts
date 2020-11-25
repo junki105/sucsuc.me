@@ -1,4 +1,4 @@
-import faunaFetch, { Fauna } from '../functions/utils/fauna'
+import faunaFetch, { Fauna } from '../core/utils/fauna'
 import * as fs from 'fs';
 
 import { Category } from '../core/entities/Category'
