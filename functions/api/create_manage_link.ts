@@ -21,10 +21,10 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   if (clientContext && clientContext.user) {
     const user: User = clientContext.user
     const result = await faunaFetch({
-      query: Fauna.Query.getUserByNetlifyID,
+      query: Fauna.Query.getCustomerByNetlifyID,
       variables: { netlifyID: user.sub },
     })
-    stripeID = result.data ? result.data.getUserByNetlifyID.stripeID : null
+    stripeID = result.data ? result.data.getCustomerByNetlifyID.stripeID : null
   }
 
   if (!stripeID) {

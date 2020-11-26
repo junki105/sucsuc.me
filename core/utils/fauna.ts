@@ -24,17 +24,33 @@ export namespace Fauna {
                 }
             }
         `
-        export const getUserByNetlifyID = `
+        export const getCustomerByNetlifyID = `
             query ($netlifyID: ID!) {
-                getUserByNetlifyID(netlifyID: $netlifyID) {
+                getCustomerByNetlifyID(netlifyID: $netlifyID) {
                     stripeID
+                }
+            }
+        `
+        export const getCustomerByStripeID = `
+            query ($stripeID: ID!) {
+                getCustomerByStripeID(stripeID: $stripeID) {
+                    _id
+                    netlifyID
                 }
             }
         `
         export const getAccountByNetlifyID = `
             query ($netlifyID: ID!) {
                 getAccountByNetlifyID(netlifyID: $netlifyID) {
+                    _id
                     stripeID
+                }
+            }
+        `
+        export const getAccountByStripeID = `
+            query ($stripeID: ID!) {
+                getAccountByNetlifyID(stripeID: $stripeID) {
+                    netlifyID
                 }
             }
         `
@@ -141,11 +157,12 @@ export namespace Fauna {
                 }
             }
         `
-        export const getProductByUuid = `
-            query ($uuid: ID!) {
-                getProductByUuid(uuid: $uuid) {
+        export const getProductByStripeID = `
+            query ($stripeID: ID!) {
+                getProductByStripeID(stripeID: $stripeID) {
                     _id
                     uuid
+                    netlifyID
                     stripeID
                     title
                     description
@@ -181,6 +198,57 @@ export namespace Fauna {
                     }
                 }
             }
+        `
+        export const getProductByUuid = `
+            query ($uuid: ID!) {
+                getProductByUuid(uuid: $uuid) {
+                    _id
+                    uuid
+                    netlifyID
+                    stripeID
+                    title
+                    description
+                    body
+                    status
+                    price
+                    interval
+                    hashtags {
+                        data {
+                            _id
+                            label
+                            value
+                        }
+                    }
+                    author {
+                        _id
+                        username
+                        name
+                        body
+                        profileImage
+                        website
+                        twitter
+                        facebook
+                        github
+                        instagram
+                        categories {
+                            data {
+                                _id
+                                label
+                                value
+                            }
+                        }
+                    }
+                }
+            }
+        `
+        export const getPaymentByChargeStripeID = `
+            query ($chargeStripeID: ID!) {
+                getPaymentByChargeStripeID(chargeStripeID: $chargeStripeID) {
+                    _id
+                    chargeStripeID
+                }
+            }
+
         `
     }
     export namespace Mutation {
@@ -408,6 +476,34 @@ export namespace Fauna {
                             value
                         }
                     }
+                }
+            }
+        `
+        export const createPayment = `
+            mutation (
+                $accountNetlifyID: ID!,
+                $customerStripeID: ID!,
+                $product: ID!,
+                $chargeStripeID: ID!,
+                $productName: String!,
+                $chargePrice: Int!
+                $salesPrice: Int!
+                $fee: Int!
+                $feePercentage: Int!
+            ) {
+                createPayment(data: {
+                    accountNetlifyID: $accountNetlifyID,
+                    customerStripeID: $customerStripeID,
+                    product: { connect: $product },
+                    chargeStripeID: $chargeStripeID,
+                    productName: $productName,
+                    chargePrice: $chargePrice,
+                    salesPrice: $salesPrice,
+                    fee: $fee,
+                    feePercentage: $feePercentage
+                }){
+                    _id
+                    chargeStripeID
                 }
             }
         `

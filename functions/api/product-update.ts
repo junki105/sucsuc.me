@@ -6,7 +6,6 @@ import { Hashtag } from '../../core/entities/Hashtag'
 import { Product, convertProduct } from '../../core/entities/Product'
 import { Profile, convertProfile } from '../../core/entities/Profile'
 import Stripe from 'stripe'
-import axios from 'axios'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
@@ -57,6 +56,11 @@ export async function handler(event: APIGatewayEvent, context: Context) {
       variables: { id: product._id, netlifyID: user.sub, ...product, connect, disconnect, author: profile._id }
     })
     savedProduct = result.data ? convertProduct(result.data.updateProduct) : null
+    
+    const stripeID: string = productResult.data.getProductByUuid.stripeID
+    if (savedProduct && stripeID) {
+      await stripe.products.update(stripeID, { name: savedProduct.title as string })
+    }
   } else {
     product.hashtags = (product.hashtags as Hashtag[]).map((h: Hashtag) => h._id) as Number[]
     result = await faunaFetch({
@@ -68,13 +72,6 @@ export async function handler(event: APIGatewayEvent, context: Context) {
 
   if (!savedProduct) {
     return { statusCode: 422, body: JSON.stringify(result) }
-  }
-  
-  if (process.env.NETLIFY_WEBHOOK_BUILD_URL) {
-    await axios(process.env.NETLIFY_WEBHOOK_BUILD_URL, {
-      method: 'POST',
-    })
-    .catch((err) => console.error(JSON.stringify(err, null, 2)))
   }
 
   return { statusCode: 200, body: JSON.stringify(savedProduct) }

@@ -13,7 +13,8 @@
     "lint": "npm run lint:js",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest",
-    "generate:json": "ts-node batch/generateJson.ts"
+    "generate:json": "ts-node batch/generateJson.ts",
+    "check:charge": "ts-node batch/checkStripeCharge.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",

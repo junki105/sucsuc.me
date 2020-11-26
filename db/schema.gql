@@ -26,7 +26,7 @@ type Profile {
   products: [Product!] @relation
 }
 
-type User {
+type Customer {
   netlifyID: ID!
   stripeID: ID!
 }
@@ -50,16 +50,30 @@ type Product {
   hashtags: [Hashtag!] @relation
 }
 
+type Payment {
+  accountNetlifyID: ID!
+  customerStripeID: ID!
+  product: Product! @relation
+  chargeStripeID: ID!
+  productName: String!
+  chargePrice: Int!
+  salesPrice: Int!
+  fee: Int!
+  feePercentage: Int!
+}
+
 type Query {
   allCategories: [Category!]
   allHashtags: [Hashtag!]
   getProfileByNetlifyID(netlifyID: ID!): Profile
 
-  getUserByNetlifyID(netlifyID: ID!): User!
-  getUserByStripeID(stripeID: ID!): User!
+  getCustomerByNetlifyID(netlifyID: ID!): Customer!
+  getCustomerByStripeID(stripeID: ID!): Customer!
   getAccountByNetlifyID(netlifyID: ID!): Account!
   getAccountByStripeID(stripeID: ID!): Account!
   allProducts: [Product!]
   getProductByUuid(uuid: ID!): Product!
   getProductByStripeID(stripeID: ID!): Product!
+
+  getPaymentByChargeStripeID(chargeStripeID: ID!): Payment!
 }

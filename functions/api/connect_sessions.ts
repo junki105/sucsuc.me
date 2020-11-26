@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
-import { StripeConst } from '../utils/stripe-helpers'
+import { StripeConst } from '../../core/utils/stripe'
 import faunaFetch, { Fauna } from '../../core/utils/fauna'
 
 import Stripe from 'stripe'

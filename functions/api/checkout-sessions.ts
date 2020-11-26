@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from 'aws-lambda'
 import { Context, ClientContext, User } from '../utils/types'
-import { StripeConst } from '../utils/stripe-helpers'
+import { StripeConst } from '../../core/utils/stripe'
 import faunaFetch, { Fauna } from '../../core/utils/fauna'
 import { Product, convertProduct } from '../../core/entities/Product'
 import { Profile, convertProfile } from '../../core/entities/Profile'
@@ -23,11 +23,11 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   }
   const user: User = clientContext.user
   const customerData = await faunaFetch({
-    query: Fauna.Query.getUserByNetlifyID,
+    query: Fauna.Query.getCustomerByNetlifyID,
     variables: { netlifyID: user.sub },
   })
   if (customerData.data) {
-    stripeID = customerData.data.getUserByNetlifyID.stripeID
+    stripeID = customerData.data.getCustomerByNetlifyID.stripeID
   } else {
     const customer = await stripe.customers.create({ email: user.email } as Stripe.CustomerCreateParams);
     await faunaFetch({
@@ -67,14 +67,15 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   });
 
   if (!product.stripeID && price.product) {
+    product.stripeID = price.product as string
     await faunaFetch({
       query: Fauna.Mutation.updateProduct,
-      variables: { id: product._id, netlifyID: user.sub, stripeID: (price.product as string), ...product, connect: [], disconnect: [], author: author._id }
+      variables: { id: product._id, netlifyID: user.sub, ...product, connect: [], disconnect: [], author: author._id }
     })
   }
 
   const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
-    mode: product.interval === StripeConst.Interval.MONTHLY ? "subscription" : "payment",
+    mode: product.interval === StripeConst.Interval.MONTHLY ? StripeConst.Session.Mode.SUBSCRIPTION : StripeConst.Session.Mode.PAYMENT,
     line_items: [
       { price: price.id, quantity: 1 },
     ],

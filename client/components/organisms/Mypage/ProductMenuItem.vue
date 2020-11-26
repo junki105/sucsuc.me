@@ -45,7 +45,7 @@
         <div v-if="products && products.length > 0">
           <alert-box
             type="warning"
-            message="プランを登録＆更新から反映までに数分時間がかかります。"
+            message="プランは審査制となります。公開までは数時間〜１営業日お時間頂きます。ご了承ください。"
             class="mt-6"
           />
           <product-list

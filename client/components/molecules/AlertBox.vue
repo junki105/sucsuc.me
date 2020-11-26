@@ -6,7 +6,7 @@
     :class="[`alert-${type}`]"
   >
     <strong class="font-bold uppercase">{{ type }}!</strong>
-    <span class="block sm:inline" v-text="message" />
+    <span class="block text-sm sm:inline md:text-base" v-text="message" />
   </div>
 </template>
 
