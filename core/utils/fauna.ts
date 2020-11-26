@@ -252,9 +252,9 @@ export namespace Fauna {
         `
     }
     export namespace Mutation {
-        export const createUser = `
+        export const createCustomer = `
             mutation ($netlifyID: ID!, $stripeID: ID!) {
-                createUser(data: { netlifyID: $netlifyID, stripeID: $stripeID }) {
+                createCustomer(data: { netlifyID: $netlifyID, stripeID: $stripeID }) {
                     netlifyID
                     stripeID
                 }

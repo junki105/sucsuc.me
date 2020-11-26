@@ -31,7 +31,7 @@ export async function handler(event: APIGatewayEvent, context: Context) {
   } else {
     const customer = await stripe.customers.create({ email: user.email } as Stripe.CustomerCreateParams);
     await faunaFetch({
-      query: Fauna.Mutation.createUser,
+      query: Fauna.Mutation.createCustomer,
       variables: { netlifyID: user.sub, stripeID: customer.id }
     });
     stripeID = customer.id
