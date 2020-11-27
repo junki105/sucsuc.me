@@ -1,6 +1,6 @@
 <template>
   <div class="py-10">
-    <div class="max-w-6xl mx-auto px-2">
+    <div class="max-w-6xl mx-auto">
       <h2
         class="flex justify-center items-center font-semibold text-center text-xl text-gray-800 lg:text-3xl"
       >
@@ -19,7 +19,7 @@
           v-for="(product, index) in products"
           :key="index"
           class="flex w-full lg:w-1/2 mb-4"
-          :class="{ 'pr-2': index % 2 == 0, 'pl-2': index % 2 == 1 }"
+          :class="{ 'lg:pr-2': index % 2 == 0, 'lg:pl-2': index % 2 == 1 }"
         >
           <product-card :product="product">
             <template v-slot:header>
