@@ -44,7 +44,7 @@ export default Vue.extend({
   @apply mx-auto h-full;
 }
 .breadcrumb {
-  @apply whitespace-no-wrap overflow-x-auto flex text-gray-600 px-4 py-2;
+  @apply whitespace-nowrap overflow-x-auto flex text-gray-600 px-4 py-2;
 }
 .breadcrumb::-webkit-scrollbar {
   @apply hidden;

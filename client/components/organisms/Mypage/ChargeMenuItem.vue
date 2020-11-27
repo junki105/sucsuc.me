@@ -25,7 +25,7 @@
           <div v-if="hasMoreCharges" class="mt-6 mx-auto">
             <a
               href="#"
-              class="p-4 bg-orange-500 text-white rounded-full"
+              class="p-4 bg-yellow-500 text-white rounded-full"
               @click.prevent="fetchCharges($event, true)"
             >
               もっと見る

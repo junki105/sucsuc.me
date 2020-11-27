@@ -45,7 +45,7 @@
             </div>
             <div class="border-b my-4" />
             <button
-              class="w-full bg-orange-500 rounded font-bold text-white p-4 hover:opacity-75 mb-4"
+              class="w-full bg-yellow-500 rounded font-bold text-white p-4 hover:opacity-75 mb-4"
               @click.prevent="showModal"
             >
               購入する
@@ -111,7 +111,7 @@
           <span class="text-gray-800 text-sm">（税込）</span>
         </p>
         <button
-          class="bg-orange-500 rounded font-bold text-white px-4 py-2 hover:opacity-75"
+          class="bg-yellow-500 rounded font-bold text-white px-4 py-2 hover:opacity-75"
           @click.prevent="showModal"
         >
           購入する

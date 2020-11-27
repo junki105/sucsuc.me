@@ -130,7 +130,7 @@
       <div class="flex items-center justify-center">
         <button
           type="submit"
-          class="bg-orange-500 text-lg text-white font-bold py-4 px-8 border-b-4 border-orange-600 rounded-full"
+          class="bg-yellow-500 text-lg text-white font-bold py-4 px-8 border-b-4 border-yellow-600 rounded-full"
           :class="{ 'opacity-75 cursor-not-allowed': invalid }"
           :disabled="invalid"
         >

@@ -45,7 +45,7 @@
       >
         <button
           v-if="actionText"
-          class="inline-flex items-center bg-orange-500 rounded font-bold text-white text-md px-8 py-2 mr-2 hover:shadow-xl lg:mr-4 lg:text-xl lg:px-10 lg:py-2"
+          class="inline-flex items-center bg-yellow-500 rounded font-bold text-white text-md px-8 py-2 mr-2 hover:shadow-xl lg:mr-4 lg:text-xl lg:px-10 lg:py-2"
           @click="handleActionModal"
         >
           {{ actionText }}

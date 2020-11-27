@@ -19,7 +19,7 @@
         <a
           v-show="!hasNew && !hasCopy && !!item._id"
           href="#"
-          class="bg-orange-500 text-white text-xs rounded-full px-4 py-1 hover:opacity-75"
+          class="bg-yellow-500 text-white text-xs rounded-full px-4 py-1 hover:opacity-75"
           @click.stop="handleCopy(item)"
         >
           <font-awesome-icon :icon="[`fas`, `copy`]" />

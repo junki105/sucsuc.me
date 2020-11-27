@@ -49,7 +49,7 @@ export default Vue.extend({
   @apply bg-blue-100 border border-blue-400 text-blue-700;
 }
 .alert-warning {
-  @apply bg-orange-100 border border-orange-400 text-orange-700;
+  @apply bg-yellow-100 border border-yellow-400 text-yellow-700;
 }
 .alert-danger {
   @apply bg-red-100 border border-red-400 text-red-700;

@@ -33,7 +33,7 @@
               <a
                 v-show="!hasNew"
                 href="#"
-                class="bg-orange-500 text-white text-xs rounded-full px-4 py-2 hover:opacity-75"
+                class="bg-yellow-500 text-white text-xs rounded-full px-4 py-2 hover:opacity-75"
                 @click.prevent="addProduct"
               >
                 追加
