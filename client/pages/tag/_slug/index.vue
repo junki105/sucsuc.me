@@ -1,7 +1,11 @@
 <template>
-  <div class="max-w-4xl mx-auto px-2">
-    <div class="w-full flex flex-wrap p-4">
-      <div v-for="(product, index) in products" :key="index" class="w-full p-2">
+  <div class="max-w-4xl mx-auto">
+    <div class="w-full flex flex-wrap py-4">
+      <div
+        v-for="(product, index) in products"
+        :key="index"
+        class="w-full border-b lg:border-b-none lg:p-2"
+      >
         <product-card :product="product">
           <template v-slot:header>
             <nuxt-link

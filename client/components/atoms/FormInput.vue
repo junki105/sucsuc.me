@@ -42,10 +42,10 @@ export default Vue.extend({
       default: 'text',
     } as PropOptions<string>,
     value: {
-      type: String,
+      type: [String, Number],
       required: true,
-      default: '',
-    } as PropOptions<string>,
+      default: null,
+    } as PropOptions<string | number>,
     placeholder: {
       type: String,
       required: false,
