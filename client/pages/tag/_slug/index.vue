@@ -1,25 +1,29 @@
 <template>
-  <div class="max-w-4xl mx-auto px-2">
-    <div class="w-full flex flex-wrap p-4">
-      <div v-for="(plan, index) in planPosts" :key="index" class="w-full p-2">
-        <plan-card :plan="plan">
+  <div class="max-w-4xl mx-auto">
+    <div class="w-full flex flex-wrap py-4">
+      <div
+        v-for="(product, index) in products"
+        :key="index"
+        class="w-full border-b lg:border-b-none lg:p-2"
+      >
+        <product-card :product="product">
           <template v-slot:header>
             <nuxt-link
-              :to="`/user/${plan.author.slug}`"
+              :to="`/user/${product.author._id}`"
               class="flex items-center mb-2"
             >
               <profile-icon
-                :src="plan.author.profilePicture"
-                :alt="plan.author.title"
+                :src="product.author.profileImage"
+                :alt="product.author.name"
                 class="h-6 w-6"
               />
               <p
                 class="ml-2 font-semibold text-xs text-gray-800"
-                v-text="plan.author.title"
+                v-text="product.author.name"
               />
             </nuxt-link>
           </template>
-        </plan-card>
+        </product-card>
       </div>
     </div>
   </div>
@@ -29,15 +33,15 @@
 import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
+import ProductCard from '@/components/molecules/ProductCard.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
 import { Breadcrumb } from '../../../../core/entities/Breadcrumb'
-import { Plan } from '../../../../core/entities/Plan'
+import { Product } from '../../../../core/entities/Product'
 import { Hashtag } from '../../../../core/entities/Hashtag'
-import PlanCard from '../../../components/PlanCard.vue'
-import ProfileIcon from '../../../components/ProfileIcon.vue'
 
 interface DataType {
   tag: Hashtag
-  planPosts: Plan[]
+  products: Product[]
 }
 
 interface MethodType {}
@@ -46,7 +50,7 @@ interface PropType {}
 
 export default Vue.extend({
   components: {
-    PlanCard,
+    ProductCard,
     ProfileIcon,
   },
   validate(context: Context): boolean {
@@ -57,15 +61,19 @@ export default Vue.extend({
   asyncData(context: Context): DataType {
     let data = null
     if (context.payload) {
-      data = context.payload as { tag: Hashtag; planPosts: Plan[] }
+      data = context.payload as { tag: Hashtag; products: Product[] }
     } else {
       const slug = context.params.slug
       const hashtags = context.store.getters['hashtag/hashtags'] || []
       const tag = hashtags.find((h: Hashtag) => h.value === slug)
-      const planPosts = context.store.getters['plan/plans'].filter((p: Plan) =>
-        p.hashtags.map((h: Hashtag) => h.value).includes(tag.value)
+      const products = context.store.getters[
+        'product/products'
+      ].filter((p: Product) =>
+        (p.hashtags as Hashtag[])
+          .map((h: Hashtag) => h.value)
+          .includes(tag.value)
       )
-      data = { tag, planPosts }
+      data = { tag, products }
     }
     context.store.dispatch('setPageInfo', {
       title: data.tag.label,
@@ -87,7 +95,7 @@ export default Vue.extend({
   data(): DataType {
     return {
       tag: {} as Hashtag,
-      planPosts: [] as Plan[],
+      products: [] as Product[],
     }
   },
   head() {

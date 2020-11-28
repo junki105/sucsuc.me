@@ -6,29 +6,29 @@
           <div class="h-full bg-white shadow-md rounded-lg p-4">
             <div class="w-full">
               <!-- eslint-disable-next-line vue/no-v-html -->
-              <div class="app-markdown" v-html="$md.render(plan.body)" />
+              <div class="app-markdown" v-html="$md.render(product.body)" />
             </div>
           </div>
         </div>
         <div class="w-full md:w-5/12 py-4">
           <div class="bg-gray-100 px-4 py-2 mb-2">
             <nuxt-link
-              :to="`/user/${plan.author.slug}`"
+              :to="`/user/${product.author._id}`"
               class="flex items-center"
             >
               <profile-icon
-                :src="plan.author.profilePicture"
-                :alt="plan.author.title"
+                :src="product.author.profileImage"
+                :alt="product.author.name"
                 class="h-10 w-10"
               />
               <div>
                 <p
                   class="ml-2 font-semibold text-xs text-gray-800"
-                  v-text="plan.author.title"
+                  v-text="product.author.name"
                 />
                 <p
                   class="ml-2 font-semibold text-xs text-gray-800"
-                  v-text="`@${plan.author.username}`"
+                  v-text="`@${product.author.username}`"
                 />
               </div>
             </nuxt-link>
@@ -38,14 +38,14 @@
               <p>金額</p>
               <p class="font-semibold text-2xl text-gray-800">
                 <span class="mr-1">¥</span>
-                <span v-text="plan.price.toLocaleString()" />
+                <span v-text="product.price.toLocaleString()" />
                 <span v-show="isMonthly" class="text-sm">/ 月</span>
                 <span class="text-gray-800 text-sm">（税込）</span>
               </p>
             </div>
             <div class="border-b my-4" />
             <button
-              class="w-full bg-orange-500 rounded font-bold text-white p-4 hover:opacity-75 mb-4"
+              class="w-full bg-yellow-500 rounded font-bold text-white p-4 hover:opacity-75 mb-4"
               @click.prevent="showModal"
             >
               購入する
@@ -106,12 +106,12 @@
       <div class="w-full flex justify-between lg:justify-end">
         <p class="font-semibold text-2xl text-gray-800 mr-5">
           <span class="mr-1">¥</span>
-          <span v-text="plan.price.toLocaleString()" />
+          <span v-text="product.price.toLocaleString()" />
           <span v-show="isMonthly" class="text-sm">/ 月</span>
           <span class="text-gray-800 text-sm">（税込）</span>
         </p>
         <button
-          class="bg-orange-500 rounded font-bold text-white px-4 py-2 hover:opacity-75"
+          class="bg-yellow-500 rounded font-bold text-white px-4 py-2 hover:opacity-75"
           @click.prevent="showModal"
         >
           購入する
@@ -136,6 +136,17 @@
               ログイン
             </button>
           </div>
+        </div>
+      </modal>
+      <modal
+        ref="warningModal"
+        title="プランを購入することはできません"
+        close-text="閉じる"
+      >
+        <div class="p-4">
+          <p class="max-w-lg mx-auto text-center text-gray-600 text-xs">
+            あなたが作成したプランです。自分のプランを購入することはできません。
+          </p>
         </div>
       </modal>
       <modal
@@ -173,25 +184,25 @@
           </p>
           <div class="bg-gray-100 border flex flex-col p-4">
             <nuxt-link
-              :to="`/user/${plan.author.slug}`"
+              :to="`/user/${product.author._id}`"
               class="flex items-center mb-2"
             >
               <profile-icon
-                :src="plan.author.profilePicture"
-                :alt="plan.author.title"
+                :src="product.author.profileImage"
+                :alt="product.author.name"
                 class="h-6 w-6"
               />
               <div>
                 <p
                   class="ml-2 font-semibold text-xs text-gray-800"
-                  v-text="plan.author.title"
+                  v-text="product.author.name"
                 />
               </div>
             </nuxt-link>
-            <p class="font-bold text-lg" v-text="plan.title" />
+            <p class="font-bold text-lg" v-text="product.title" />
             <p class="font-semibold text-3xl text-gray-800">
               <span class="mr-1">¥</span>
-              <span v-text="plan.price.toLocaleString()" />
+              <span v-text="product.price.toLocaleString()" />
               <span v-show="isMonthly" class="text-sm">/ 月</span>
               <span class="text-gray-800 text-sm">（税込）</span>
             </p>
@@ -226,15 +237,16 @@ import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
 import { loadStripe, RedirectToCheckoutOptions } from '@stripe/stripe-js'
+import Modal from '@/components/molecules/Modal.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
 import { Breadcrumb } from '../../../../core/entities/Breadcrumb'
-import { Plan } from '../../../../core/entities/Plan'
-import Modal from '../../../components/Modal.vue'
-import ProfileIcon from '../../../components/ProfileIcon.vue'
+import { Product, INTERVAL_MONTHLY } from '../../../../core/entities/Product'
+import { Profile } from '../../../../core/entities/Profile'
 
 interface DataType {
   baseUrl: string
   stripePublishableKey: string
-  plan: Plan
+  product: Product
   agree: Boolean
 }
 
@@ -249,22 +261,22 @@ export default Vue.extend({
   },
   validate(context: Context): boolean {
     const slug = context.params.slug
-    const plans = context.store.getters['plan/plans'] || []
-    return plans.find((p: Plan) => p.slug === slug)
+    const products = context.store.getters['product/products'] || []
+    return products.find((p: Product) => p.uuid === slug)
   },
   asyncData(context: Context): DataType {
     let data = null
     if (context.payload) {
-      data = context.payload as { plan: Plan }
+      data = context.payload as { product: Product }
     } else {
       const slug = context.params.slug
-      const plans = context.store.getters['plan/plans'] || []
-      const plan = plans.find((p: Plan) => p.slug === slug)
-      data = { plan }
+      const products = context.store.getters['product/products'] || []
+      const product = products.find((p: Product) => p.uuid === slug)
+      data = { product }
     }
     context.store.dispatch('setPageInfo', {
-      title: data.plan.title,
-      description: data.plan.description,
+      title: data.product.title,
+      description: data.product.description,
       breadcrumbs: [
         {
           to: '/',
@@ -272,11 +284,11 @@ export default Vue.extend({
           color: 'text-gray-100',
         } as Breadcrumb,
         {
-          to: `/user/${data.plan.author.slug}`,
-          name: data.plan.author.title,
+          to: `/user/${data.product.author._id}`,
+          name: data.product.author.name,
           color: 'text-gray-100',
         } as Breadcrumb,
-        { name: data.plan.title, color: 'text-gray-100' } as Breadcrumb,
+        { name: data.product.title, color: 'text-gray-100' } as Breadcrumb,
       ],
     })
 
@@ -291,7 +303,7 @@ export default Vue.extend({
     return {
       baseUrl: '',
       stripePublishableKey: process.env.baseUrl || '',
-      plan: {} as Plan,
+      product: {} as Product,
       agree: false,
     }
   },
@@ -300,26 +312,39 @@ export default Vue.extend({
       htmlAttrs: {
         lang: 'ja',
       },
-      title: this.plan.title,
+      title: this.product.title,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: this.plan.description,
+          content: this.product.description,
         },
       ],
     }
   },
   computed: {
     isMonthly(): Boolean {
-      return this.plan.interval === 'monthly'
+      return this.product.interval === INTERVAL_MONTHLY
     },
   },
   methods: {
     showModal(): void {
-      this.$store.getters['auth/user']
-        ? (this.$refs as any).checkoutConfirmModal.show()
-        : (this.$refs as any).authModal.show()
+      if (!this.$store.getters['auth/user']) {
+        ;(this.$refs as any).authModal.show()
+        return
+      }
+
+      const profile: Profile | null = this.$store.getters['auth/profile']
+      if (
+        profile &&
+        this.product.author &&
+        profile._id === this.product.author._id
+      ) {
+        ;(this.$refs as any).warningModal.show()
+        return
+      }
+
+      ;(this.$refs as any).checkoutConfirmModal.show()
     },
     goToLogin(): void {
       ;(this.$refs as any).authModal.hide()
@@ -333,10 +358,10 @@ export default Vue.extend({
           const token = await this.$store.dispatch('auth/refresh')
           this.$axios.setHeader('Authorization', `Bearer ${token}`)
           const session = await this.$axios.$post(
-            '/.netlify/functions/checkout_sessions',
+            '/.netlify/functions/checkout-sessions',
             {
-              uuid: this.plan.uuid,
-              success_url: `${this.baseUrl}/plans/${this.plan.slug}`,
+              uuid: this.product.uuid,
+              success_url: `${this.baseUrl}/plan/${this.product.uuid}/thanks`,
             }
           )
           stripe.redirectToCheckout({

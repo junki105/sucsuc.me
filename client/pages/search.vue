@@ -1,7 +1,9 @@
 <template>
   <div class="h-full bg-white">
     <div class="max-w-6xl mx-auto pt-2 pb-6 lg:pt-16">
-      <div class="w-full relative flex justify-end items-center mb-4">
+      <div
+        class="w-full relative flex justify-end items-center mb-4 px-2 lg:px-0"
+      >
         <input
           v-model="q"
           type="text"
@@ -9,16 +11,8 @@
           placeholder="Search..."
           @input="search"
         />
-        <span class="absolute mr-3">
-          <svg
-            class="fill-current pointer-events-none text-gray-600 w-5 h-5 lg:w-8 lg:h-8"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-          >
-            <path
-              d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
-            ></path>
-          </svg>
+        <span class="absolute mr-3 text-gray-600">
+          <font-awesome-icon :icon="['fas', 'search']" />
         </span>
       </div>
       <div v-if="authors.length > 0" class="mb-10">
@@ -45,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div v-if="plans.length > 0" class="">
+      <div v-if="products.length > 0" class="">
         <h3 class="flex items-center font-bold px-2 mb-4 text-xl">
           <span
             class="inline-flex items-center justify-center bg-gray-100 text-gray-800 border border-gray-500 rounded-full w-10 h-10 mr-2"
@@ -59,25 +53,25 @@
             </p>
           </div>
         </h3>
-        <div v-for="(plan, index) in plans" :key="index" class="mb-2">
-          <plan-card :plan="plan">
+        <div v-for="(product, index) in products" :key="index" class="mb-2">
+          <product-card :product="product" class="border-b">
             <template v-slot:header>
               <nuxt-link
-                :to="`/user/${plan.author.slug}`"
+                :to="`/user/${product.author._id}`"
                 class="flex items-center mb-2"
               >
                 <profile-icon
-                  :src="plan.author.profilePicture"
-                  :alt="plan.author.title"
+                  :src="product.author.profileImage"
+                  :alt="product.author.name"
                   class="h-6 w-6"
                 />
                 <p
                   class="ml-2 font-semibold text-xs text-gray-800"
-                  v-text="plan.author.title"
+                  v-text="product.author.name"
                 />
               </nuxt-link>
             </template>
-          </plan-card>
+          </product-card>
         </div>
       </div>
     </div>
@@ -88,11 +82,11 @@
 import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
-import AuthorCard from '../components/AuthorCard.vue'
-import PlanCard from '../components/PlanCard.vue'
-import ProfileIcon from '../components/ProfileIcon.vue'
-import { Author } from '../../core/entities/Author'
-import { Plan } from '../../core/entities/Plan'
+import AuthorCard from '@/components/molecules/AuthorCard.vue'
+import ProductCard from '@/components/molecules/ProductCard.vue'
+import ProfileIcon from '@/components/atoms/ProfileIcon.vue'
+import { Profile } from '../../core/entities/Profile'
+import { Product } from '../../core/entities/Product'
 
 const title = 'スクスク（SUCSUC）、プラン検索'
 const description =
@@ -100,8 +94,8 @@ const description =
 
 interface DataType {
   q: string
-  authors: Author[]
-  plans: Plan[]
+  authors: Profile[]
+  products: Product[]
 }
 
 interface MethodType {
@@ -114,7 +108,7 @@ interface PropType {}
 export default Vue.extend({
   components: {
     AuthorCard,
-    PlanCard,
+    ProductCard,
     ProfileIcon,
   },
   asyncData(context: Context): DataType {
@@ -122,24 +116,24 @@ export default Vue.extend({
     return {
       q: '',
       authors: [],
-      plans: [],
+      products: [],
     }
   },
   data(): DataType {
     return {
       q: '',
       authors: [],
-      plans: [],
+      products: [],
     }
   },
   methods: {
     search(): void {
       this.$store
         .dispatch('author/search', this.q)
-        .then((res: Author[]) => (this.authors = res))
+        .then((res: Profile[]) => (this.authors = res))
       this.$store
-        .dispatch('plan/search', this.q)
-        .then((res: Plan[]) => (this.plans = res))
+        .dispatch('product/search', this.q)
+        .then((res: Product[]) => (this.products = res))
     },
   },
   head() {

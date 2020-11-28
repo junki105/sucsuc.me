@@ -40,11 +40,11 @@
             </div>
             <div :class="{ hidden: openTab !== 2, block: openTab === 2 }">
               <div
-                v-for="(plan, index) in plans"
+                v-for="(product, index) in products"
                 :key="index"
                 class="w-full md:pb-2 md:px-2"
               >
-                <plan-card :plan="plan" class="border-b" />
+                <product-card :product="product" class="border-b" />
               </div>
             </div>
             <div :class="{ hidden: openTab !== 3, block: openTab === 3 }"></div>
@@ -94,17 +94,17 @@
 import Vue from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 import { Context } from '@nuxt/types'
-import { Author } from '../../../core/entities/Author'
+import ProductCard from '@/components/molecules/ProductCard.vue'
+import { Profile } from '../../../core/entities/Profile'
 import { Breadcrumb } from '../../../core/entities/Breadcrumb'
-import { Plan } from '../../../core/entities/Plan'
-import PlanCard from '../../components/PlanCard.vue'
+import { Product } from '../../../core/entities/Product'
 
 interface DataType {
   openTab: number
   url: string
   shareText: string
-  author: Author
-  plans: Plan[]
+  author: Profile
+  products: Product[]
 }
 
 interface MethodType {
@@ -116,24 +116,28 @@ interface PropType {}
 
 export default Vue.extend({
   components: {
-    PlanCard,
+    ProductCard,
   },
   watchQuery: ['t'],
   validate(context: Context): boolean {
     const slug = context.params.slug
     const authors = context.store.getters['author/authors'] || []
-    return authors.find((a: Author) => a.slug === slug)
+    return authors.find((a: Profile) => (a._id as Number).toString() === slug)
   },
   asyncData(context: Context): DataType {
     let data = null
     if (context.payload) {
-      data = context.payload as { author: Author; plans: Plan[] }
+      const { author } = context.payload as { author: Profile }
+      const products = author.products
+      data = { author, products }
     } else {
       const slug = context.params.slug
       const authors = context.store.getters['author/authors'] || []
-      const author = authors.find((a: Author) => a.slug === slug)
-      const plans = context.store.getters['plan/authorPlanPosts'](author) || []
-      data = { author, plans }
+      const author = authors.find(
+        (a: Profile) => (a._id as Number).toString() === slug
+      )
+      const products = author.products
+      data = { author, products }
     }
     const breadcrumbs = [
       {
@@ -141,12 +145,12 @@ export default Vue.extend({
         icon: ['fas', 'laptop-code'],
         color: 'text-gray-100',
       } as Breadcrumb,
-      { name: data.author.title, color: 'text-gray-100' } as Breadcrumb,
+      { name: data.author.name, color: 'text-gray-100' } as Breadcrumb,
     ]
     context.store.dispatch('setPageInfo', {
-      title: data.author.title,
+      title: data.author.name,
       description: `@${data.author.username}`,
-      image: data.author.profilePicture,
+      image: data.author.profileImage,
       breadcrumbs,
     })
     return {
@@ -161,8 +165,8 @@ export default Vue.extend({
       openTab: 1,
       url: `${process.env.baseUrl}${this.$nuxt.$route.path}`,
       shareText: '',
-      author: {} as Author,
-      plans: [] as Plan[],
+      author: {} as Profile,
+      products: [] as Product[],
     }
   },
   head() {
@@ -170,12 +174,12 @@ export default Vue.extend({
       htmlAttrs: {
         lang: 'ja',
       },
-      title: this.author.title,
+      title: this.author.name,
       meta: [
         {
           hid: 'description',
           name: 'description',
-          content: `${this.author.title}に関するページを表示します`,
+          content: `${this.author.name}に関するページを表示します`,
         },
       ],
     }

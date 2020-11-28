@@ -4,7 +4,7 @@
       <document :html="law" />
       <nuxt-link
         to="/contact"
-        class="bg-orange-500 text-white rounded-full px-4 py-2 hover:opacity-75"
+        class="bg-yellow-500 text-white rounded-full px-4 py-2 hover:opacity-75"
       >
         問い合わせ
       </nuxt-link>
@@ -15,8 +15,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Context } from '@nuxt/types'
+import Document from '@/components/atoms/Document.vue'
 import { Breadcrumb } from '../../core/entities/Breadcrumb'
-import Document from '../elements/Document.vue'
 
 const title = '特定商取引法に基づく表記'
 

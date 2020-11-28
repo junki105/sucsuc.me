@@ -17,7 +17,7 @@
           <div>
             <nuxt-link
               to="/"
-              class="block w-full lg:w-1/2 mx-auto bg-orange-500 text-xl text-white text-center p-3 rounded-full mb-4 hover:opacity-75"
+              class="block w-full lg:w-1/2 mx-auto bg-yellow-500 text-xl text-white text-center p-3 rounded-full mb-4 hover:opacity-75"
             >
               トップページへ
             </nuxt-link>

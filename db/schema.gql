@@ -1,4 +1,32 @@
-type User {
+type Category {
+  label: String
+  value: String
+  profiles: [Profile!] @relation
+}
+
+type Hashtag {
+  label: String
+  value: String
+  icon: String
+  products: [Product!] @relation
+}
+
+type Profile {
+  netlifyID: ID!
+  username: String!
+  name: String!
+  body: String!
+  categories: [Category!] @relation
+  profileImage: String
+  website: String
+  twitter: String
+  facebook: String
+  github: String
+  instagram: String
+  products: [Product!] @relation
+}
+
+type Customer {
   netlifyID: ID!
   stripeID: ID!
 }
@@ -9,15 +37,43 @@ type Account {
 }
 
 type Product {
-  stripeID: ID!
   uuid: ID!
+  netlifyID: ID!
+  stripeID: ID
+  title: String!
+  body: String!
+  description: String!
+  interval: String!
+  price: Int!
+  status: String!
+  author: Profile! @relation
+  hashtags: [Hashtag!] @relation
+}
+
+type Payment {
+  accountNetlifyID: ID!
+  customerStripeID: ID!
+  product: Product! @relation
+  chargeStripeID: ID!
+  productName: String!
+  chargePrice: Int!
+  salesPrice: Int!
+  fee: Int!
+  feePercentage: Int!
 }
 
 type Query {
-  getUserByNetlifyID(netlifyID: ID!): User!
-  getUserByStripeID(stripeID: ID!): User!
+  allCategories: [Category!]
+  allHashtags: [Hashtag!]
+  getProfileByNetlifyID(netlifyID: ID!): Profile
+
+  getCustomerByNetlifyID(netlifyID: ID!): Customer!
+  getCustomerByStripeID(stripeID: ID!): Customer!
   getAccountByNetlifyID(netlifyID: ID!): Account!
   getAccountByStripeID(stripeID: ID!): Account!
+  allProducts: [Product!]
   getProductByUuid(uuid: ID!): Product!
   getProductByStripeID(stripeID: ID!): Product!
+
+  getPaymentByChargeStripeID(chargeStripeID: ID!): Payment!
 }

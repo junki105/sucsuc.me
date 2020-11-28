@@ -8,11 +8,13 @@
     "build": "nuxt-ts build",
     "build:functions": "netlify-lambda build functions/api",
     "start": "nuxt-ts start",
-    "generate": "yarn build:functions && nuxt-ts generate",
+    "generate": "npm run generate:json && npm run build:functions && nuxt-ts generate",
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "test": "jest"
+    "test": "jest",
+    "generate:json": "ts-node batch/generateJson.ts",
+    "check:charge": "ts-node batch/checkStripeCharge.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -26,21 +28,24 @@
     "@nuxtjs/proxy": "^2.0.1",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
     "@nuxtjs/sitemap": "^2.4.0",
+    "@nuxtjs/toast": "^3.3.1",
     "@stripe/stripe-js": "^1.7.0",
     "@types/netlify-identity-widget": "^1.4.2",
     "@types/node": "^14.0.13",
+    "@types/uuid": "^8.3.0",
+    "@types/validator": "^13.1.0",
     "@types/webpack": "^4.41.17",
     "@types/webpack-env": "^1.15.2",
     "fuse.js": "^6.4.1",
-    "netlify-cms-app": "^2.12.27",
-    "netlify-cms-locales": "^1.18.2",
-    "netlify-cms-widget-uuid": "^0.0.9",
     "netlify-identity-widget": "^1.9.1",
     "nuxt": "^2.13.0",
     "portal-vue": "^2.1.7",
     "stripe": "^8.93.0",
+    "uuid": "^8.3.1",
+    "validator": "^13.1.17",
     "vee-validate": "^3.4.2",
-    "vue-disqus": "^4.0.0"
+    "vue-disqus": "^4.0.0",
+    "vue-multiselect": "^2.1.6"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.4",
@@ -51,6 +56,7 @@
     "@nuxtjs/tailwindcss": "^3.1.0",
     "@types/aws-lambda": "^8.10.62",
     "@vue/test-utils": "^1.0.3",
+    "autoprefixer": "^9",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.0.1",
@@ -60,7 +66,9 @@
     "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.0.1",
     "netlify-lambda": "^2.0.1",
+    "postcss": "^7",
     "prettier": "^2.0.5",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "ts-jest": "^26.1.0",
     "vue-jest": "^3.0.4"
   }

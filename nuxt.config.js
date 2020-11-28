@@ -11,58 +11,43 @@ if (process.env.NODE_ENV !== 'production') {
 
 const generateRoute = () => {
   const fs = require('fs')
-  const categories = require(`./client/content/category.json`).categories
+  // const categories = require(`./client/content/category.json`).categories
   const hashtags = require(`./client/content/hashtag.json`).hashtags
-  const authors = fs.readdirSync('./client/content/author').map((file) => {
-    const author = require(`./client/content/author/${file}`)
-    author.slug = author.username
-    author.categories = author.categoryIds.map((str) =>
-      categories.find((c) => c.value === str)
-    )
-    return author
-  })
-  const plans = fs.readdirSync('./client/content/plan').map((file) => {
-    const plan = require(`./client/content/plan/${file}`)
-    plan.slug = `${plan.authorId}-${plan.uuid}`
-    plan.author = authors.find((a) => a.username === plan.authorId)
-    plan.hashtags = plan.hashtagIds.map((str) =>
-      hashtags.find((h) => h.value === str)
-    )
-    return plan
-  })
+  const authors = fs
+    .readdirSync('./client/content/author')
+    .map((file) => require(`./client/content/author/${file}`))
+  const products = fs
+    .readdirSync('./client/content/product')
+    .map((file) => require(`./client/content/product/${file}`))
 
   return [
-    ...authors.map((author) => {
-      return {
-        route: `/user/${author.slug}`,
-        payload: {
-          author,
-          plans: plans.filter(
-            (plan) => plan.author.username === author.username
-          ),
-        },
-      }
+    ...authors
+      .filter((author) => author._id)
+      .map((author) => {
+        return {
+          route: `/user/${author._id}`,
+          payload: { author },
+        }
+      }),
+    ...products.map((product) => {
+      return { route: `/plan/${product.uuid}`, payload: { product } }
     }),
-    ...plans.map((plan) => {
-      return { route: `/plan/${plan.slug}`, payload: { plan } }
-    }),
-    ...plans.map((plan) => {
-      return { route: `/plan/${plan.slug}/thanks`, payload: { plan } }
+    ...products.map((product) => {
+      return { route: `/plan/${product.uuid}/thanks`, payload: { product } }
     }),
     ...hashtags.map((tag) => {
       return {
         route: `/tag/${tag.value}`,
         payload: {
           tag,
-          planPosts: plans.filter((plan) =>
-            plan.hashtagIds.find((h) => h === tag.value)
+          products: products.filter((product) =>
+            product.hashtags.map((h) => h.value).find((h) => h === tag.value)
           ),
         },
       }
     }),
   ]
 }
-const routes = generateRoute()
 
 export default {
   env: {
@@ -122,7 +107,10 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@fortawesome/fontawesome-svg-core/styles.css'],
+  css: [
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    'vue-multiselect/dist/vue-multiselect.min.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -151,6 +139,7 @@ export default {
     '@nuxtjs/markdownit',
     '@nuxtjs/sitemap',
     '@nuxtjs/dayjs',
+    '@nuxtjs/toast',
     'portal-vue/nuxt',
     ...modules,
   ],
@@ -175,20 +164,26 @@ export default {
 
   generate: {
     subFolders: false,
-    routes,
+    routes() {
+      return generateRoute()
+    },
   },
   render: {
     fallback: false,
   },
-  loading: '~/components/Loading.vue',
+  loading: '~/components/molecules/Loading.vue',
   sitemap: {
     hostname: process.env.BASE_URL || `http://localhost:3000/`,
     lastmod: '2020-11-03',
     sitemaps: [
       {
         path: '/sitemap.xml',
-        routes: routes.map((r) => r.route).filter((r) => !r.match(/.*thanks$/)),
-        exclude: ['/mypage', '/admin', '/contact/thanks'],
+        routes() {
+          return generateRoute()
+            .map((r) => r.route)
+            .filter((r) => !r.match(/.*thanks$/))
+        },
+        exclude: ['/mypage', '/admin', '/contact', '/contact/thanks'],
         gzip: true,
       },
     ],
@@ -196,6 +191,11 @@ export default {
   dayjs: {
     locales: ['ja', 'en'],
     defaultLocale: 'ja',
+  },
+  toast: {
+    position: 'top-center',
+    duration: 3000,
+    register: [],
   },
   ...options,
 }

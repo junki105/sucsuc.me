@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="header px-2 lg:px-0">
     <nav class="nav">
       <div class="flex items-center justify-between">
         <div class="">
@@ -17,20 +17,16 @@
           </nuxt-link>
         </div>
         <div class="flex items-center text-right">
-          <nuxt-link to="/search" class="search-icon mr-6">
-            <svg
-              class="fill-current pointer-events-none text-gray-600 w-4 h-4"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"
-              ></path>
-            </svg>
+          <nuxt-link to="/search" class="text-gray-600 mr-6">
+            <font-awesome-icon :icon="['fas', 'search']" />
           </nuxt-link>
           <client-only placeholder="Loading...">
             <template v-if="user.email">
-              <dropdown-menu :user="user" @logout="$emit('logout')">
+              <dropdown-menu
+                :user="user"
+                :profile="profile"
+                @logout="$emit('logout')"
+              >
               </dropdown-menu>
             </template>
             <template v-else>
@@ -58,16 +54,22 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
+import Logo from '@/components/atoms/Logo.vue'
+import DropdownMenu from '@/components/molecules/DropdownMenu.vue'
+
 import { User } from 'netlify-identity-widget'
-import Logo from '../../elements/Logo.vue'
-import DropdownMenu from '../../components/DropdownMenu.vue'
+import { Profile } from '../../../core/entities/Profile'
+
 export default Vue.extend({
   components: {
     Logo,
     DropdownMenu,
   },
   props: {
-    user: { type: Object, required: true, deafult: null } as PropOptions<User>,
+    user: { type: Object, required: true, default: null } as PropOptions<User>,
+    profile: { type: Object, required: true, default: null } as PropOptions<
+      Profile
+    >,
   },
 })
 </script>
