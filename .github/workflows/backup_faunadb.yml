@@ -3,7 +3,7 @@ name: Fauna Scheduled Backup
 # Backup every day at 8pm
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '* * * * *'
 
 jobs:
   backup-db:
@@ -19,10 +19,10 @@ jobs:
       ####################################################################################
       ### Uncomment this section if you want to download and prepare the FDM each time ### 
       ####################################################################################
-      # - name: download fdm manager
-      #   run: wget https://fauna-repo.s3.amazonaws.com/fdm/fdm.zip
-      # - name: unzip fdm manager
-      #   run: unzip fdm.zip
+      - name: download fdm manager
+        run: wget https://fauna-repo.s3.amazonaws.com/fdm/fdm.zip
+      - name: unzip fdm manager
+        run: unzip fdm.zip
       - name: perform backup
         # Why do we use such a complicated 'cd' command here? The FDM folder has a version number in its name. So if we are downloading
         # the FDM application on the fly, we can use $(ls -d fdm*/|head -n 1) to ensure that we open the correct directory
