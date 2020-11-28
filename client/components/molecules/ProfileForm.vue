@@ -44,7 +44,7 @@
           <input-label for-input="username"> ユーザー名 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ required: true, regex: /^[a-z0-9]*$/ }"
+            :rules="{ required: true, regex: /^[a-z0-9]*$/, max: 40, min: 2 }"
             name="ユーザー名"
           >
             <input
@@ -69,7 +69,7 @@
           <input-label for-input="name"> 表示名 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ required: true }"
+            :rules="{ required: true, max: 40, min: 2 }"
             name="表示名"
           >
             <input
@@ -90,19 +90,10 @@
           <input-label for-input="body"> 自己紹介 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ required: true }"
+            :rules="{ required: true, max: 3000, min: 40 }"
             name="自己紹介"
           >
-            <textarea
-              v-model="form.body"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
-            />
+            <form-textarea v-model="form.body" :errors="errors" />
           </ValidationProvider>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
@@ -152,7 +143,7 @@
           </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ regex: /^[a-zA-Z0-9_]*$/ }"
+            :rules="{ regex: /^[a-zA-Z0-9_]*$/, max: 60 }"
             name="Twitter"
           >
             <input
@@ -179,7 +170,7 @@
           </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ regex: /^[a-zA-Z0-9]*$/ }"
+            :rules="{ regex: /^[a-zA-Z0-9]*$/, max: 60 }"
             name="facebook"
           >
             <input
@@ -206,7 +197,7 @@
           </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ regex: /^[a-zA-Z0-9_]*$/ }"
+            :rules="{ regex: /^[a-zA-Z0-9_]*$/, max: 60 }"
             name="Instagram"
           >
             <input
@@ -233,7 +224,7 @@
           </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ regex: /^[a-zA-Z0-9_]*$/ }"
+            :rules="{ regex: /^[a-zA-Z0-9_]*$/, max: 60 }"
             name="Github"
           >
             <input
@@ -274,6 +265,7 @@ import Vue, { PropOptions } from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 
 import InputLabel from '@/components/atoms/InputLabel.vue'
+import FormTextarea from '@/components/atoms/FormTextarea.vue'
 import Multiselect from 'vue-multiselect'
 
 import { Category } from '../../../core/entities/Category'
@@ -296,6 +288,7 @@ interface PropType {
 export default Vue.extend({
   components: {
     InputLabel,
+    FormTextarea,
     Multiselect,
   },
   props: {
