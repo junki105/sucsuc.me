@@ -20,6 +20,7 @@ export namespace Fauna {
                         _id
                         label
                         value
+                        icon
                     }
                 }
             }
@@ -270,7 +271,7 @@ export namespace Fauna {
 
         `
         export const createProfile = `
-            mutation ($netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $categories: [ID]!) {
+            mutation ($netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $github: String, $profileImage: String, $categories: [ID]!) {
                 createProfile(data: {
                     netlifyID: $netlifyID,
                     username: $username,
@@ -280,6 +281,7 @@ export namespace Fauna {
                     twitter: $twitter,
                     facebook: $facebook,
                     instagram: $instagram,
+                    github: $github,
                     profileImage: $profileImage,
                     categories: {
                         connect: $categories
@@ -293,8 +295,8 @@ export namespace Fauna {
                     website
                     twitter
                     facebook
-                    github
                     instagram
+                    github
                     categories {
                         data {
                             _id
@@ -325,7 +327,7 @@ export namespace Fauna {
             }
         `
         export const updateProfile = `
-            mutation ($id: ID!, $netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $profileImage: String, $connect: [ID]!, $disconnect: [ID]!) {
+            mutation ($id: ID!, $netlifyID: ID!, $username: String!, $name: String!, $body: String!, $website: String, $twitter: String, $facebook: String, $instagram: String, $github: String, $profileImage: String, $connect: [ID]!, $disconnect: [ID]!) {
                 updateProfile(id: $id, data: {
                     netlifyID: $netlifyID,
                     username: $username,
@@ -335,6 +337,7 @@ export namespace Fauna {
                     twitter: $twitter,
                     facebook: $facebook,
                     instagram: $instagram,
+                    github: $github,
                     profileImage: $profileImage,
                     categories: {
                         connect: $connect
@@ -349,8 +352,8 @@ export namespace Fauna {
                     website
                     twitter
                     facebook
-                    github
                     instagram
+                    github
                     categories {
                         data {
                             _id

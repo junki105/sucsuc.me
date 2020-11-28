@@ -144,7 +144,7 @@
           </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ regex: /^[a-zA-Z0-9]*$/, max: 60 }"
+            :rules="{ regex: /^[a-zA-Z0-9.]*$/, max: 60 }"
             name="facebook"
           >
             <form-input
