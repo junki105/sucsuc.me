@@ -179,7 +179,9 @@ export default {
       {
         path: '/sitemap.xml',
         routes() {
-          return generateRoute().map((r) => r.route).filter((r) => !r.match(/.*thanks$/))
+          return generateRoute()
+            .map((r) => r.route)
+            .filter((r) => !r.match(/.*thanks$/))
         },
         exclude: ['/mypage', '/admin', '/contact', '/contact/thanks'],
         gzip: true,
@@ -193,7 +195,7 @@ export default {
   toast: {
     position: 'top-center',
     duration: 3000,
-    register: []
+    register: [],
   },
   ...options,
 }

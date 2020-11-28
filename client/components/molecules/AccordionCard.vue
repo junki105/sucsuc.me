@@ -14,7 +14,7 @@
       <slot name="header-right"></slot>
     </div>
     <div v-show="open" class="p-4">
-      <slot />
+      <slot :open="open" />
     </div>
   </div>
 </template>

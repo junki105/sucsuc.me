@@ -26,11 +26,14 @@
           <span class="hidden md:inline-block">Copy</span>
         </a>
       </template>
-      <product-form
-        :product="item"
-        :hashtags="hashtags"
-        :handle-submit="handleSubmit"
-      />
+      <template v-slot:default="slotProps">
+        <product-form
+          v-if="slotProps.open"
+          :product="item"
+          :hashtags="hashtags"
+          :handle-submit="handleSubmit"
+        />
+      </template>
     </accordion-card>
   </div>
 </template>

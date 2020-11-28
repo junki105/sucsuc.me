@@ -10,7 +10,7 @@
           <input-label for-input="title"> タイトル </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ required: true }"
+            :rules="{ required: true, max: 40, min: 8 }"
             name="タイトル"
           >
             <input
@@ -31,7 +31,7 @@
           <input-label for-input="description"> 説明 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ required: true }"
+            :rules="{ required: true, max: 80, min: 10 }"
             name="説明"
           >
             <input
@@ -52,19 +52,10 @@
           <input-label for-input="body"> 内容 </input-label>
           <ValidationProvider
             v-slot="{ errors }"
-            :rules="{ required: true }"
+            :rules="{ required: true, max: 3000, min: 40 }"
             name="内容"
           >
-            <textarea
-              v-model="form.body"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
-            />
+            <form-textarea v-model="form.body" :errors="errors" />
           </ValidationProvider>
         </div>
         <div class="w-full md:w-1/2 px-3 mb-2">
@@ -152,6 +143,7 @@ import Vue, { PropOptions } from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 
 import InputLabel from '@/components/atoms/InputLabel.vue'
+import FormTextarea from '@/components/atoms/FormTextarea.vue'
 import Multiselect from 'vue-multiselect'
 
 import { Hashtag } from '../../../core/entities/Hashtag'
@@ -177,6 +169,7 @@ interface PropType {
 export default Vue.extend({
   components: {
     InputLabel,
+    FormTextarea,
     Multiselect,
   },
   props: {

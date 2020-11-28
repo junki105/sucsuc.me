@@ -136,7 +136,9 @@ export default Vue.extend({
       try {
         await this.$store.dispatch('auth/saveProduct', product)
         ;(this.$refs as any).modal.hide()
-        this.$toast.success('プランを保存しました。')
+        this.$toast.success(
+          `プランを保存しました。サイトへの反映をお待ちください。`
+        )
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error(err)
