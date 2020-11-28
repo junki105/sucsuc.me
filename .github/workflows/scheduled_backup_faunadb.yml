@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env: # Set some environmental variables
       FAUNA_SERVER_KEY: ${{ secrets.FAUNA_ADMIN_KEY }} # Admin key for the faunadb
+      ZIP_PASSWORD: ${{ secrets.ZIP_PASSWORD }} # Zip Password  
     steps:
       - uses: actions/checkout@v2 # Grab the project files
       - uses: actions/setup-java@v1
@@ -37,4 +38,4 @@ jobs:
         # steps. See https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-output-parameter
         run: echo ::set-output name=backup_file_name::fauna_backup-SCHEDULED-$(date +"%Y-%m-%d-%H-%M-%S").zip
       - name: zip backup files together
-        run: zip -r ${{ steps.file_name.outputs.backup_file_name }} fauna_export/
+        run: zip -e --password=$ZIP_PASSWORD -r ${{ steps.file_name.outputs.backup_file_name }} fauna_export/
