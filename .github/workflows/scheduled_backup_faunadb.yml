@@ -1,9 +1,9 @@
 name: Fauna Scheduled Backup
 
 # Backup every day at 8pm
-on:
-  schedule:
-    - cron: '* * * * *'
+on: workflow_dispatch
+  # schedule:
+  #   - cron: '* * * * *'
 
 jobs:
   backup-db:
