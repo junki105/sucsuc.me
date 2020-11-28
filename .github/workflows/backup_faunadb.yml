@@ -1,0 +1,40 @@
+name: Fauna Scheduled Backup
+
+# Backup every day at 8pm
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  backup-db:
+    # Use the latest ubuntu environment provided by Github
+    runs-on: ubuntu-latest
+    env: # Set some environmental variables
+      FAUNA_SERVER_KEY: ${{ secrets.FAUNA_ADMIN_KEY }} # Admin key for the faunadb
+    steps:
+      - uses: actions/checkout@v2 # Grab the project files
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      ####################################################################################
+      ### Uncomment this section if you want to download and prepare the FDM each time ### 
+      ####################################################################################
+      # - name: download fdm manager
+      #   run: wget https://fauna-repo.s3.amazonaws.com/fdm/fdm.zip
+      # - name: unzip fdm manager
+      #   run: unzip fdm.zip
+      - name: perform backup
+        # Why do we use such a complicated 'cd' command here? The FDM folder has a version number in its name. So if we are downloading
+        # the FDM application on the fly, we can use $(ls -d fdm*/|head -n 1) to ensure that we open the correct directory
+        # no matter which version of the FDM we download. We can simplify the syntax if we choose to save the
+        # FDM application in our project directory.
+        run: mkdir fauna_export && cd $(ls -d fdm*/|head -n 1) && chmod +x ./fdm && ./fdm -source key=$FAUNA_SERVER_KEY -dest path=../fauna_export
+      - name: generate file name and save to backup_file_name
+        id: file_name
+        # Create a backup zip filename which contains the project ID and the date in the filename to ensure uniqueness.
+        #
+        # The :: syntax is used to create a variable (called an 'output parameter') which can be used in subsequent
+        # steps. See https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-output-parameter
+        run: echo ::set-output name=backup_file_name::fauna_backup-SCHEDULED-$(date +"%Y-%m-%d-%H-%M-%S").zip
+      - name: zip backup files together
+        run: zip -r ${{ steps.file_name.outputs.backup_file_name }} fauna_export/
