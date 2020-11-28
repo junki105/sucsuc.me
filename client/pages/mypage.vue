@@ -8,7 +8,6 @@
             <charge-menu-item />
             <subscription-menu-item />
             <product-menu-item v-if="isMentor" />
-            <cms-menu-item v-if="isAdmin" />
             <connect-menu-item v-if="isMentor" />
             <bank-menu-item v-if="isMentor" />
             <contact-menu-item />
@@ -27,7 +26,6 @@ import { Context } from '@nuxt/types'
 import { User } from 'netlify-identity-widget'
 import BankMenuItem from '@/components/organisms/Mypage/BankMenuItem.vue'
 import ChargeMenuItem from '@/components/organisms/Mypage/ChargeMenuItem.vue'
-import CmsMenuItem from '@/components/organisms/Mypage/CmsMenuItem.vue'
 import ConnectMenuItem from '@/components/organisms/Mypage/ConnectMenuItem.vue'
 import ContactMenuItem from '@/components/organisms/Mypage/ContactMenuItem.vue'
 import ProfileMenuItem from '@/components/organisms/Mypage/ProfileMenuItem.vue'
@@ -45,7 +43,6 @@ interface MethodType {}
 interface ComputedType {
   user(): User
   isMentor(): boolean
-  isAdmin(): boolean
 }
 interface PropType {}
 
@@ -53,7 +50,6 @@ export default Vue.extend({
   components: {
     BankMenuItem,
     ChargeMenuItem,
-    CmsMenuItem,
     ConnectMenuItem,
     ContactMenuItem,
     ProfileMenuItem,
@@ -78,9 +74,6 @@ export default Vue.extend({
     },
     isMentor(): boolean {
       return this.$store.getters['auth/isMentor']
-    },
-    isAdmin(): boolean {
-      return this.$store.getters['auth/isAdmin']
     },
   },
   mounted() {
