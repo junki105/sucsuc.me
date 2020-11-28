@@ -27,17 +27,10 @@
             :rules="{ required: true, regex: /^[0-9]{4}$/ }"
             name="銀行コード"
           >
-            <input
+            <form-input
               v-model="form.bankCode"
-              type="text"
               placeholder="銀行コード"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -52,17 +45,10 @@
             :rules="{ required: true, regex: /^[0-9]{3}$/ }"
             name="支店コード"
           >
-            <input
+            <form-input
               v-model="form.branchCode"
-              type="text"
               placeholder="支店コード"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -77,17 +63,10 @@
             :rules="{ required: true, regex: /^[0-9]{7,8}$/ }"
             name="口座番号"
           >
-            <input
+            <form-input
               v-model="form.accountNumber"
-              type="text"
               placeholder="口座番号"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -107,17 +86,10 @@
             }"
             name="口座名義"
           >
-            <input
+            <form-input
               v-model="form.accountHolderName"
-              type="text"
               placeholder="口座名義"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -144,6 +116,7 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import InputLabel from '@/components/atoms/InputLabel.vue'
+import FormInput from '@/components/atoms/FormInput.vue'
 
 export interface BankForm {
   accountHolderName: String
@@ -155,6 +128,7 @@ export interface BankForm {
 export default Vue.extend({
   components: {
     InputLabel,
+    FormInput,
   },
   props: {
     handleSubmit: {

@@ -47,17 +47,10 @@
             :rules="{ required: true, regex: /^[a-z0-9]*$/, max: 40, min: 2 }"
             name="ユーザー名"
           >
-            <input
+            <form-input
               v-model="form.username"
-              type="text"
               placeholder="ユーザー名"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -72,17 +65,10 @@
             :rules="{ required: true, max: 40, min: 2 }"
             name="表示名"
           >
-            <input
+            <form-input
               v-model="form.name"
-              type="text"
               placeholder="表示名"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
         </div>
@@ -124,16 +110,10 @@
             }"
             name="WebサイトURL"
           >
-            <input
+            <form-input
               v-model="form.website"
-              type="text"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              placeholder="WebサイトURL"
+              :errors="errors"
             />
           </ValidationProvider>
         </div>
@@ -146,16 +126,10 @@
             :rules="{ regex: /^[a-zA-Z0-9_]*$/, max: 60 }"
             name="Twitter"
           >
-            <input
+            <form-input
               v-model="form.twitter"
-              type="text"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              placeholder="Twitter"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -173,16 +147,10 @@
             :rules="{ regex: /^[a-zA-Z0-9]*$/, max: 60 }"
             name="facebook"
           >
-            <input
+            <form-input
               v-model="form.facebook"
-              type="text"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              placeholder="Facebook"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -200,16 +168,10 @@
             :rules="{ regex: /^[a-zA-Z0-9_]*$/, max: 60 }"
             name="Instagram"
           >
-            <input
+            <form-input
               v-model="form.instagram"
-              type="text"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              placeholder="Instagram"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -227,16 +189,10 @@
             :rules="{ regex: /^[a-zA-Z0-9_]*$/, max: 60 }"
             name="Github"
           >
-            <input
+            <form-input
               v-model="form.github"
-              type="text"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              placeholder="Github"
+              :errors="errors"
             />
           </ValidationProvider>
           <p class="text-gray-600 text-xs mb-2">
@@ -265,6 +221,7 @@ import Vue, { PropOptions } from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 
 import InputLabel from '@/components/atoms/InputLabel.vue'
+import FormInput from '@/components/atoms/FormInput.vue'
 import FormTextarea from '@/components/atoms/FormTextarea.vue'
 import Multiselect from 'vue-multiselect'
 
@@ -288,6 +245,7 @@ interface PropType {
 export default Vue.extend({
   components: {
     InputLabel,
+    FormInput,
     FormTextarea,
     Multiselect,
   },

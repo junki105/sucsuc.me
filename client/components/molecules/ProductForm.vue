@@ -13,17 +13,10 @@
             :rules="{ required: true, max: 40, min: 8 }"
             name="タイトル"
           >
-            <input
+            <form-input
               v-model="form.title"
-              type="text"
               placeholder="タイトル"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
         </div>
@@ -34,17 +27,10 @@
             :rules="{ required: true, max: 80, min: 10 }"
             name="説明"
           >
-            <input
+            <form-input
               v-model="form.description"
-              type="text"
               placeholder="説明"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              :errors="errors"
             />
           </ValidationProvider>
         </div>
@@ -82,16 +68,11 @@
             :rules="{ required: true, regex: /^[0-9]*$/ }"
             name="金額"
           >
-            <input
+            <form-input
               v-model="form.price"
               type="number"
-              class="block w-full bg-gray-200 text-gray-600 border rounded py-3 px-4 mb-1 leading-tight focus:outline-none focus:bg-white"
-              :class="{ 'border-red': false }"
-            />
-            <p
-              v-if="errors.length > 0"
-              class="text-red-500 text-xs italic"
-              v-text="errors[0]"
+              placeholder="金額"
+              :errors="errors"
             />
           </ValidationProvider>
         </div>
@@ -143,6 +124,7 @@ import Vue, { PropOptions } from 'vue'
 import { ThisTypedComponentOptionsWithRecordProps } from 'vue/types/options'
 
 import InputLabel from '@/components/atoms/InputLabel.vue'
+import FormInput from '@/components/atoms/FormInput.vue'
 import FormTextarea from '@/components/atoms/FormTextarea.vue'
 import Multiselect from 'vue-multiselect'
 
@@ -169,6 +151,7 @@ interface PropType {
 export default Vue.extend({
   components: {
     InputLabel,
+    FormInput,
     FormTextarea,
     Multiselect,
   },
