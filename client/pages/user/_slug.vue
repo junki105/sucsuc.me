@@ -8,7 +8,10 @@
             class="app-markdown text-sm mb-2"
             v-html="$md.render(author.body)"
           />
-          <div class="flex items-center text-xs mb-2">
+          <div
+            v-if="author.categories.length > 0"
+            class="flex items-center text-xs mb-2"
+          >
             <div class="text-gray-600 mr-2">
               <font-awesome-icon :icon="['fas', 'briefcase']" />
             </div>
