@@ -1,57 +1,78 @@
 <template>
   <div class="max-w-6xl mx-auto">
     <div class="flex flex-col md:flex-row">
-      <div class="w-full py-4 md:px-4">
-        <ul class="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row">
-          <li class="-mb-px md:mr-2 last:mr-0 flex-auto text-center">
-            <a
-              class="text-xs font-bold uppercase px-5 py-3 shadow-lg border-r md:border-none md:rounded block leading-normal"
-              :class="{
-                'text-brand bg-white': openTab !== 1,
-                'text-white bg-brand': openTab === 1,
-              }"
-              @click.prevent="toggleTabs(1)"
-            >
-              Profile
-            </a>
-          </li>
-          <li class="-mb-px md:mr-2 last:mr-0 flex-auto text-center">
-            <a
-              class="text-xs font-bold uppercase px-5 py-3 shadow-lg border-r md:border-none md:rounded block leading-normal"
-              :class="{
-                'text-brand bg-white': openTab !== 2,
-                'text-white bg-brand': openTab === 2,
-              }"
-              @click.prevent="toggleTabs(2)"
-            >
-              Plan
-            </a>
-          </li>
-        </ul>
-        <div class="w-full mb-6">
-          <div class="tab-content tab-space">
-            <div :class="{ hidden: openTab !== 1, block: openTab === 1 }">
-              <div class="bg-white shadow-md rounded-lg p-4 mb-6">
-                <div>
-                  <!-- eslint-disable-next-line vue/no-v-html -->
-                  <div class="app-markdown" v-html="$md.render(author.body)" />
-                </div>
-              </div>
+      <div class="w-full md:w-5/12 py-4">
+        <div class="bg-gray-100 p-4 mb-4">
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div
+            class="app-markdown text-sm mb-2"
+            v-html="$md.render(author.body)"
+          />
+          <div
+            v-if="author.categories.length > 0"
+            class="flex items-center text-xs mb-2"
+          >
+            <div class="text-gray-600 mr-2">
+              <font-awesome-icon :icon="['fas', 'briefcase']" />
             </div>
-            <div :class="{ hidden: openTab !== 2, block: openTab === 2 }">
-              <div
-                v-for="(product, index) in products"
-                :key="index"
-                class="w-full md:pb-2 md:px-2"
-              >
-                <product-card :product="product" class="border-b" />
-              </div>
-            </div>
-            <div :class="{ hidden: openTab !== 3, block: openTab === 3 }"></div>
+            <ul class="flex items-center">
+              <li
+                v-for="category in author.categories"
+                :key="category.value"
+                class="mr-1"
+                v-text="category.label"
+              />
+            </ul>
+          </div>
+          <div class="flex">
+            <a
+              v-if="author.twitter"
+              :href="`https://twitter.com/${author.twitter}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mr-2 hover:opacity-75"
+            >
+              <font-awesome-icon :icon="['fab', 'twitter']" size="lg" />
+            </a>
+            <a
+              v-if="author.facebook"
+              :href="`https://www.facebook.com/${author.facebook}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mr-2 hover:opacity-75"
+            >
+              <font-awesome-icon :icon="['fab', 'facebook']" size="lg" />
+            </a>
+            <a
+              v-if="author.instagram"
+              :href="`https://www.instagram.com/${author.instagram}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mr-2 hover:opacity-75"
+            >
+              <font-awesome-icon :icon="['fab', 'instagram']" size="lg" />
+            </a>
+            <a
+              v-if="author.github"
+              :href="`https://github.com/${author.github}`"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mr-2 hover:opacity-75"
+            >
+              <font-awesome-icon :icon="['fab', 'github']" size="lg" />
+            </a>
+            <a
+              v-if="author.website"
+              :href="author.website"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mr-2 hover:opacity-75"
+            >
+              <font-awesome-icon :icon="['fas', 'link']" size="lg" />
+            </a>
           </div>
         </div>
-      </div>
-      <div class="w-full md:w-5/12 py-4">
+
         <div class="bg-gray-100 p-4 mb-4">
           <p class="font-bold text-xl mb-2">Share</p>
           <div class="flex">
@@ -69,6 +90,17 @@
             >
               <font-awesome-icon :icon="['fab', 'facebook']" />
             </a>
+          </div>
+        </div>
+      </div>
+      <div class="w-full py-4 md:px-4">
+        <div class="w-full mb-6">
+          <div
+            v-for="(product, index) in products"
+            :key="index"
+            class="w-full md:pb-2 md:px-2"
+          >
+            <product-card :product="product" class="border-b" />
           </div>
         </div>
       </div>
@@ -100,17 +132,13 @@ import { Breadcrumb } from '../../../core/entities/Breadcrumb'
 import { Product } from '../../../core/entities/Product'
 
 interface DataType {
-  openTab: number
   url: string
   shareText: string
   author: Profile
   products: Product[]
 }
 
-interface MethodType {
-  toggleTabs(tab: number): void
-}
-
+interface MethodType {}
 interface ComputedType {}
 interface PropType {}
 
@@ -154,7 +182,6 @@ export default Vue.extend({
       breadcrumbs,
     })
     return {
-      openTab: 1,
       url: '',
       shareText: '',
       ...data,
@@ -162,7 +189,6 @@ export default Vue.extend({
   },
   data(): DataType {
     return {
-      openTab: 1,
       url: `${process.env.baseUrl}${this.$nuxt.$route.path}`,
       shareText: '',
       author: {} as Profile,
@@ -183,17 +209,6 @@ export default Vue.extend({
         },
       ],
     }
-  },
-  mounted() {
-    const route = this.$route as any
-    if (route.query && route.query.t && parseInt(route.query.t) === 2) {
-      this.openTab = parseInt(route.query.t)
-    }
-  },
-  methods: {
-    toggleTabs(tab: number): void {
-      this.openTab = tab
-    },
   },
 } as ThisTypedComponentOptionsWithRecordProps<Vue, DataType, MethodType, ComputedType, PropType>)
 </script>

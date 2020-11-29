@@ -46,7 +46,6 @@ export const actions: ActionTree<RootState, RootState> = {
     await dispatch('category/init');
     await dispatch('hashtag/init');
     await dispatch('author/init');
-    await dispatch('blog/init');
     await dispatch('product/init');
   },
 }

@@ -3,22 +3,26 @@
         {
             "_id": "282335857929617921",
             "label": "Laravel",
-            "value": "laravel"
+            "value": "laravel",
+            "icon": "/img/laravel-2.png"
         },
         {
             "_id": "282335873565983233",
             "label": "PHP",
-            "value": "php"
+            "value": "php",
+            "icon": "/img/php.png"
         },
         {
             "_id": "282335887022359041",
             "label": "コードレビュー",
-            "value": "code-review"
+            "value": "code-review",
+            "icon": null
         },
         {
             "_id": "282335899023311361",
             "label": "転職",
-            "value": "career-change"
+            "value": "career-change",
+            "icon": null
         }
     ]
 }
